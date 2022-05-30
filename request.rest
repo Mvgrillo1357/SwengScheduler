@@ -1,3 +1,6 @@
+//Install the REST Client extension(Visual Studio Code) to use this for testing
+//if you click the "Send Request" button you test the web app within the IDE
+
 GET http://localhost:3000/users
 
 ###
