@@ -3,7 +3,7 @@ const router  = express.Router();
 const {ensureAuthenticated} = require('../config/auth') 
 //login page
 router.get('/', (req,res)=>{
-    res.render('welcome to SwengScheduler');
+    res.render('welcome');
 })
 //register page
 router.get('/register', (req,res)=>{
