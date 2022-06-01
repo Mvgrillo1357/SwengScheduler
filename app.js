@@ -6,11 +6,16 @@ const expressEjsLayout = require('express-ejs-layouts')
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require("passport");
-
+const dotenv = require('dotenv');
+const ENV = dotenv.config().parsed;
+const username = ENV.MONGO_USERNAME;
+const password = ENV.MONGO_PASSWORD;
 //passport config:
 require('./config/passport')(passport)
 //mongoose
-mongoose.connect('mongodb+srv://SwengSchedule:<Password>@swengschedule.geddkpi.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology : true})
+var uri = `mongodb+srv://${username}:${password}@swengschedule.geddkpi.mongodb.net/?retryWrites=true&w=majority`;
+
+mongoose.connect(uri,{useNewUrlParser: true, useUnifiedTopology : true})
 .then(() => console.log('connected,,'))
 .catch((err)=> console.log(err));
 
