@@ -23,7 +23,7 @@ passport.authenticate('local',{
     const { firstName, lastName, login, personalEmail, proposedCompany, } = req.body;
     let errors = [];
 
-    console.log(' First Name: ' + firstName + ' Last Name :' + lastName + ' login :' + login  + ' Personal Email :' + personalEmail + 'Proposed Company :' + proposedCompany);
+    console.log(' First Name: ' + firstName + ' Last Name :' + lastName + ' login :' + login  + ' Personal Email :' + personalEmail + ' Permission Level :' + 'Proposed Company :' + proposedCompany);
     if(!firstName || !lastName || !login ||  !personalEmail || !proposedCompany) {
         errors.push({msg : "Please fill in all fields"})
     }
@@ -36,6 +36,7 @@ passport.authenticate('local',{
         lastName : lastName, 
         login : login,
         personalEmail: personalEmail,
+        permissionLevel: permissionLevel,
         proposedCompany: proposedCompany,
         })
      } else {
@@ -57,22 +58,23 @@ passport.authenticate('local',{
                 lastName : lastName, 
                 login : login,
                 personalEmail: personalEmail,
+                permissionLevel: permissionLevel,
                 proposedCompany: proposedCompany,
             });
     
             //hash password
             bcrypt.genSalt(10,(err,salt)=> 
-            bcrypt.hash("FirstP@ssw0rd",salt,  //newUser.password
+            bcrypt.hash(newUser.password,salt,
                 (err,hash)=> {
                     if(err) throw err;
                         //save pass to hash
-                        newSuperUser.password = hash;
-                    //save Super User
-                    newSuperUser.save()  // sending the data to mangooDb
+                        newUser.password = hash;
+                    //save user
+                    newUser.save()
                     .then((value)=>{
                         console.log(value)
-                        req.flash('success_msg', login + ' has been created');
-                        res.redirect('/users/login');      // need to be changed to the HR dashboard
+                        req.flash('success_msg','You have now registered!');
+                        res.redirect('/users/login');
                     })
                     .catch(value=> console.log(value));
                       

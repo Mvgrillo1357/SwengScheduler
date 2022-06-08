@@ -2,7 +2,7 @@
 <%- include ('./partials/messages') %>
 <form action="/superuser/create" method="POST">
 <div>
-    <label for="firstName">First name</label>
+    <label for="firstName">First Name</label>
     <input
       type="name"
       name="firstName"
@@ -12,7 +12,7 @@
   
 </div>
 <div>
-    <label for="lastName">Last name</label>
+    <label for="lastName">Last Name</label>
     <input
       type="name"
       name="lastName"
@@ -43,6 +43,17 @@
 
 </div>
 
+<div><!--need to be list -->
+    <label for="permissionLevel">Permission Level</label>
+    <input
+      type="number"
+      name="permissionLevel"
+      placeholder="choose Permission Level"
+      value="<%= typeof permissionLevel != 'undefined' ? permissionLevel : '' %>"
+    />
+  
+</div>
+
 <div>
     <label for="personalEmail">Email</label>
     <input
@@ -52,24 +63,6 @@
       value="<%= typeof personalEmail != 'undefined' ? personalEmail : '' %>"
     />
   </div>
-  <!-- <div >
-    <label for="password">Password</label>
-    <input
-      type="password"
-      name="password"
-      placeholder="Create Password"
-      value="<%= typeof password != 'undefined' ? password : '' %>"
-    />
-  </div>
-  <div >
-    <label for="password2">Confirm Password</label>
-    <input
-      type="password"
-      name="password2"
-      placeholder="Confirm Password"
-      value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
-    />
-  </div> -->
   <button type="submit" class="btn btn-primary btn-block">
     Register
   </button>
