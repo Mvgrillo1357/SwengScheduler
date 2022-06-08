@@ -20,7 +20,7 @@ passport.authenticate('local',{
 })
   //register post handle
   router.post('/create',(req,res)=>{
-    const { firstName, lastName, login, personalEmail, proposedCompany, } = req.body;
+    const { firstName, lastName, login, personalEmail, permissionLevel, proposedCompany, } = req.body;
     let errors = [];
 
     console.log(' First Name: ' + firstName + ' Last Name :' + lastName + ' login :' + login  + ' Personal Email :' + personalEmail + ' Permission Level :' + 'Proposed Company :' + proposedCompany);
@@ -64,13 +64,13 @@ passport.authenticate('local',{
     
             //hash password
             bcrypt.genSalt(10,(err,salt)=> 
-            bcrypt.hash(newUser.password,salt,
+            bcrypt.hash(newSuperUser.password,salt,
                 (err,hash)=> {
                     if(err) throw err;
                         //save pass to hash
-                        newUser.password = hash;
+                        newSuperUser.password = hash;
                     //save user
-                    newUser.save()
+                    newSuperUser.save()
                     .then((value)=>{
                         console.log(value)
                         req.flash('success_msg','You have now registered!');
