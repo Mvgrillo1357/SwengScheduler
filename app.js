@@ -43,5 +43,6 @@ app.use((req,res,next)=> {
 //Routes
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
+app.use('/Manager',require('./routes/Manger'));
 
 app.listen(3000); 

@@ -1,0 +1,96 @@
+
+<h1>Register</h1>
+<%- include ('./partials/messages') %>
+<form action="/manager/create" method="POST">
+<div>
+    <label for="firstName">First name</label>
+    <input
+      type="name"
+      name="firstName"
+      placeholder="Enter First Name"
+      value="<%= typeof firstName != 'undefined' ? firstName : '' %>"
+    />
+  
+</div>
+<div>
+    <label for="lastName">Last name</label>
+    <input
+      type="name"
+      name="lastName"
+      placeholder="Enter Last Name"
+      value="<%= typeof lastName != 'undefined' ? lastName : '' %>"
+    />
+  
+</div>
+<div>
+    <label for="login">login</label>
+    <input
+      type="text"
+      name="login"
+      placeholder="Enter Login"
+      value="<%= typeof login != 'undefined' ? login : '' %>"
+    />
+  
+</div>
+<div>
+    <label for="dateOfHire">Date of hire</label>
+    <input
+      type="date"
+      name="dateOfHire"
+      placeholder="Enter Date Of Hire"
+      value="<%= typeof dateOfHire != 'undefined' ? dateOfHire : '' %>"
+    />
+  
+</div>
+<div><!--need to be list -->
+    <label for="permissionLevel">Permission Lever</label>
+    <input
+      type="number"
+      name="permissionLevel"
+      placeholder="choose Permission Lever"
+      value="<%= typeof permissionLevel != 'undefined' ? permissionLevel : '' %>"
+    />
+  
+</div>
+<div>
+    <label for="numberOfReports">Number Of Reports</label>
+    <input
+      type="number"
+      name="numberOfReports"
+      placeholder="Enter Number Of Employees"
+      value="<%= typeof numberOfReports != 'undefined' ? numberOfReports : '' %>"
+    />
+  
+</div>
+<div>
+    <label for="personalEmail">Email</label>
+    <input
+      type="email"
+      name="personalEmail"
+      placeholder="Enter Email"
+      value="<%= typeof personalEmail != 'undefined' ? personalEmail : '' %>"
+    />
+  </div>
+  <!-- <div >
+    <label for="password">Password</label>
+    <input
+      type="password"
+      name="password"
+      placeholder="Create Password"
+      value="<%= typeof password != 'undefined' ? password : '' %>"
+    />
+  </div>
+  <div >
+    <label for="password2">Confirm Password</label>
+    <input
+      type="password"
+      name="password2"
+      placeholder="Confirm Password"
+      value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
+    />
+  </div> -->
+  <button type="submit" class="btn btn-primary btn-block">
+    Register
+  </button>
+</form>
+<p >Have An Account? <a href="/users/login">Login</a></p>
