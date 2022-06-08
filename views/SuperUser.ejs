@@ -1,8 +1,9 @@
+
 <h1>Register</h1>
 <%- include ('./partials/messages') %>
 <form action="/superuser/create" method="POST">
 <div>
-    <label for="firstName">First Name</label>
+    <label for="firstName">First name</label>
     <input
       type="name"
       name="firstName"
@@ -12,7 +13,7 @@
   
 </div>
 <div>
-    <label for="lastName">Last Name</label>
+    <label for="lastName">Last name</label>
     <input
       type="name"
       name="lastName"
@@ -32,28 +33,26 @@
   
 </div>
 
-<div>
-    <label for="proposedCompany">proposedCompany</label>
-    <input
-        type="proposed composed"
-        name="proposedCompany"
-        placeholder="Proposed Company"
-        value="<%= typeof proposedCompany != 'undefined' ? proposedCompany : '' %>"
-        />
-
-</div>
-
 <div><!--need to be list -->
-    <label for="permissionLevel">Permission Level</label>
+    <label for="permissionLevel">Permission Lever</label>
     <input
       type="number"
       name="permissionLevel"
-      placeholder="choose Permission Level"
+      placeholder="choose Permission Lever"
       value="<%= typeof permissionLevel != 'undefined' ? permissionLevel : '' %>"
     />
   
 </div>
-
+<div>
+    <label for="proposedCompany">Proposed Company</label>
+    <input
+      type="text"
+      name="proposedCompany"
+      placeholder="Enter your Proposed Company"
+      value="<%= typeof proposedCompany != 'undefined' ? proposedCompany : '' %>"
+    />
+  
+</div>
 <div>
     <label for="personalEmail">Email</label>
     <input
@@ -61,6 +60,15 @@
       name="personalEmail"
       placeholder="Enter Email"
       value="<%= typeof personalEmail != 'undefined' ? personalEmail : '' %>"
+    />
+  </div>
+ <div >
+    <label for="password">Password</label>
+    <input
+      type="password"
+      name="password"
+      placeholder="Create Password"
+      value="<%= typeof password != 'undefined' ? password : '' %>"
     />
   </div>
   <button type="submit" class="btn btn-primary btn-block">
