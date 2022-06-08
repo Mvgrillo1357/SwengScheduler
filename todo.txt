@@ -1,0 +1,3 @@
+use this endpoint to use this endpoint to test manager class
+
+localhost:3000/manager/create
