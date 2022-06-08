@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const UserSchema  = new mongoose.Schema({
+const SuperUserSchema  = new mongoose.Schema({
   name :{
       type  : String,
       required : true
@@ -30,6 +30,6 @@ permissionLevel :{
 
 });
 
-const SuperUser= mongoose.model('SuperUser',UserSchema);
+const SuperUser= mongoose.model('SuperUser',SuperUserSchema);
 
 module.exports = SuperUser;
