@@ -34,9 +34,9 @@ passport.authenticate('local',{
         proposedCompany: proposedCompany})
      } else {
         //validation passed
-       User.findOne({email : email}).exec((err,user)=>{
-        console.log(user);   
-        if(user) {
+        SuperUser.findOne({$or : [ {personalEmail : personalEmail} ,{ login : login}]}).exec((err,superuser)=>{ // how to do or?
+        console.log(superuser);   
+        if(superuser) {
             errors.push({msg: 'email already registered'});
             res.render('register',{errors,firstName,lastName,personalEmail,permissionLevel,proposedCompany})  
            } else {
