@@ -1,3 +1,41 @@
 <h1>Dashboard</h1>
 <p> Welcome <%= user.name %></p>
+
+<% if (user.role == 'SuperUser'){ %>
+<p>Hello SuperUser</p>
+
+<p> Your organization <%= user.organization.name %> is <%= user.organization.status %>
+<% } %>
+
+<% if (user.role == 'Admin') { %>
+<h2>Organizations</h2> 
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Request By</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+<% organizations.forEach(function(org) { %>
+<tr>
+    <td><%= org.name %></td>
+    <td><%= org.status %></td>
+    <td><% if (org.requestedBy) { %> <%= org.requestedBy.name %> <%- org.requestedBy.personalEmail %> <% } %></td>
+    <td>
+        <% if (org.status == 'Pending' || org.status == 'Denied') { %>
+            <a href="/organization/approve/<%= org._id%>">Approve</a>
+        <% } if (org.status == 'Pending' || org.status == 'Approved') {%>
+            <a href="/organization/deny/<%= org._id%>">Deny</a>
+        <% } %>
+            <a href="/organization/delete/<%= org._id%>">Delete</a>
+    </td>
+</tr>
+<% }) %>
+</table>
+<% } %>
+
+
+
 <a href="/users/logout">Logout</a>

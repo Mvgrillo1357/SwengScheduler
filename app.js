@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require("passport");
 const dotenv = require('dotenv');
+const checkIsInRole = require('./config/utils');
 const ENV = dotenv.config().parsed;
 const username = ENV.MONGO_USERNAME;
 const password = ENV.MONGO_PASSWORD;
@@ -33,17 +34,26 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+
+// Serve images and public files through this directory
+app.use(express.static('public'))
+
+
 app.use((req,res,next)=> {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error  = req.flash('error');
     next();
-    })
+})
     
 //Routes
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
-app.use('/SuperUser',require('./routes/SuperUser'));
+app.use('/organization',require('./routes/SuperUser'));
+app.use('/organization',
+            //passport.authorize('local', {failureRedirect: '/users/login'}),
+            checkIsInRole('Admin'),
+            require('./routes/organization'));
 app.use('/Manager',require('./routes/Manager'));
 
 app.listen(3000); 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('./user');
 
-const SuperUser = User.discriminator('SuperUser', 
+const Admin = User.discriminator('Admin', 
     new mongoose.Schema(
         // Custom SuperUser Fields here
         { }, 
@@ -10,4 +10,4 @@ const SuperUser = User.discriminator('SuperUser',
     )
 );
     
-module.exports = SuperUser;
+module.exports = Admin;

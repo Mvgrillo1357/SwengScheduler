@@ -80,8 +80,9 @@ passport.authenticate('local',{
     })
 //logout
 router.get('/logout',(req,res)=>{
-req.logout();
-req.flash('success_msg','Now logged out');
-res.redirect('/users/login'); 
+    req.logout(() => {
+        req.flash('success_msg','Now logged out');
+        res.redirect('/users/login'); 
+    });
 })
 module.exports  = router;

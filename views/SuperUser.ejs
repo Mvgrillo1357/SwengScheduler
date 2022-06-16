@@ -1,7 +1,11 @@
+<%- include ('./partials/header') %>
 
-<h1>Register</h1>
+<h1>Request new Organization</h1>
 <%- include ('./partials/messages') %>
-<form action="/superuser/create" method="POST">
+<form action="/organization/create" method="POST">
+<fieldSet>
+  <legend>Your Information:</legend>
+
 <div>
     <label for="firstName">First name</label>
     <input
@@ -23,28 +27,48 @@
   
 </div>
 <div>
-    <label for="login">login</label>
+    <label for="login">Login / Username</label>
     <input
       type="text"
       name="login"
       placeholder="Enter Login"
       value="<%= typeof login != 'undefined' ? login : '' %>"
     />
-  
 </div>
 
-<div><!--need to be list -->
-    <label for="permissionLevel">Permission Lever</label>
-    <input
-      type="number"
-      name="permissionLevel"
-      placeholder="choose Permission Level"
-      value="<%= typeof permissionLevel != 'undefined' ? permissionLevel : '' %>"
-    />
-  
+<div>
+  <label for="personalEmail">Email</label>
+  <input
+    type="email"
+    name="personalEmail"
+    placeholder="Enter Email"
+    value="<%= typeof personalEmail != 'undefined' ? personalEmail : '' %>"
+  />
+</div>
+
+<div>
+  <label for="password">Password</label>
+  <input
+    type="password"
+    name="password"
+    placeholder="Enter Password"
+  />
 </div>
 <div>
-    <label for="proposedCompany">Proposed Company</label>
+  <label for="passwordConfirmation">Confirm Password</label>
+  <input
+    type="password"
+    name="passwordConfirmation"
+    placeholder="Enter Password again"
+  />
+</div>
+
+</fieldSet>
+<fieldSet>
+  <legend>Company Information:</legend>
+<div>
+  
+    <label for="proposedCompany">Name</label>
     <input
       type="text"
       name="proposedCompany"
@@ -53,17 +77,10 @@
     />
   
 </div>
-<div>
-    <label for="personalEmail">Email</label>
-    <input
-      type="email"
-      name="personalEmail"
-      placeholder="Enter Email"
-      value="<%= typeof personalEmail != 'undefined' ? personalEmail : '' %>"
-    />
-  </div>
+</fieldSet>
+
   <button type="submit" class="btn btn-primary btn-block">
-    Register
+    Request
   </button>
 </form>
 <p >Have An Account? <a href="/users/login">Login</a></p>
