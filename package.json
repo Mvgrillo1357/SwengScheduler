@@ -27,6 +27,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.3.5",
     "passport": "^0.6.0",
+    "passport-2fa-totp": "^0.0.1",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {

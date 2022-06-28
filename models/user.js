@@ -40,6 +40,9 @@ const UserSchema  = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Organization', 
     },
+    secret: {
+        type: String,
+    }
 }, options);
 
 UserSchema.virtual('name')
