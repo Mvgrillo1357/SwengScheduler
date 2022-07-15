@@ -11,6 +11,7 @@ const checkIsInRole = require('./config/utils');
 const ENV = dotenv.config().parsed;
 const username = ENV.MONGO_USERNAME;
 const password = ENV.MONGO_PASSWORD;
+
 //passport config:
 require('./config/passport')(passport)
 //mongoose
@@ -55,5 +56,8 @@ app.use('/organization',
             checkIsInRole('Admin'),
             require('./routes/organization'));
 app.use('/Manager',require('./routes/Manager'));
+
+app.use('/calendar', require('./routes/calendar'));
+
 
 app.listen(3000); 

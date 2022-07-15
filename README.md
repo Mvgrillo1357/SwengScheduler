@@ -8,7 +8,11 @@ v16.13.2
 
 in order to initialize use:
 
-npm i express express-session express-ejs-layouts connect-flash passport passport-local mongoose bcrypt ejs dotenv
+npm i express express-session express-ejs-layouts connect-flash passport passport-local mongoose bcrypt ejs dotenv dhtmlx-scheduler
+
+or:
+
+npm i
 
 
 Add .env file with MONGO_USERNAME and MONGO_PASSWORD
