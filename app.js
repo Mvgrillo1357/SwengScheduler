@@ -56,7 +56,7 @@ app.use('/organization',
             checkIsInRole('Admin'),
             require('./routes/organization'));
 app.use('/Manager',require('./routes/Manager'));
-
+app.use('/EmployeeList',require('./routes/EmployeeList'));
 app.use('/calendar', require('./routes/calendar'));
 
 

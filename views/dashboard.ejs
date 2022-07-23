@@ -1,6 +1,10 @@
 <h1>Dashboard</h1>
 <p> Welcome <%= user.name %></p>
 
+<% if (user.role != 'Employee'){ %>
+    <a href="#" class="button">Admin</a>
+<% } %>
+
 <% if (user.role == 'SuperUser'){ %>
 <p>Hello SuperUser</p>
 
@@ -19,6 +23,7 @@
         </tr>
     </thead>
 <% organizations.forEach(function(org) { %>
+    
 <tr>
     <td><%= org.name %></td>
     <td><%= org.status %></td>

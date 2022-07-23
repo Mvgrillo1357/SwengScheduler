@@ -26,7 +26,7 @@
     "express": "^4.18.1",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.3",
-    "mongoose": "^6.3.5",
+    "mongoose": "^6.4.6",
     "passport": "^0.6.0",
     "passport-2fa-totp": "^0.0.1",
     "passport-local": "^1.0.0"

@@ -1,0 +1,21 @@
+<%- include ('./partials/header') %>
+
+<h1>Employee List</h1>
+<%- include ('./partials/messages') %>
+
+
+<h2>users</h2> 
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+<% users.forEach(function(user) { %>
+    
+<tr>
+    <td><%= user.name %></td>
+   
+</tr>
+<% }) %>
+</table>
