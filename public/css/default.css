@@ -69,14 +69,14 @@ body {
   }
   
   #content{
-      position: absolute;
-      width: 30%;
-      background-color: #ffffff;
-      left: 50%;
-      vertical-align: baseline;
-      margin-left: -250;
-      margin-top: -40;
-      height: 40%;
-      max-width: 500;
-      max-height: 600px;
+    position: relative;
+    width: 40%;
+    background-color: #ffffff;
+    left: 50%;
+    vertical-align: middle;
+    margin-left: -250;
+    margin-top: -40;
+    max-width: 500;
+    box-shadow: black 0px 1px 5px 2px;
+    height: auto;
   }
