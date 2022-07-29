@@ -9,15 +9,26 @@ const CalendarSchema  = new mongoose.Schema({
     belongsTo: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',
-        required: true,
+        // required: true,
     },
     startDate :{
         type : Date,
         default : Date.now
     },
+
+    startTime :{
+        type : String,
+        default : "00:00",
+    },
+
     endDate :{
         type : Date,
         default : Date.now + 100,
+    },
+
+    endTime :{
+        type : String,
+        default : "00:00",
     },
 });
 
