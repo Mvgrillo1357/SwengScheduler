@@ -11,7 +11,7 @@ body {
   }
   .button-img{
       margin: 5px;
-      background: rgb(241, 244, 247);
+      background: rgb(49, 87, 126);
       border-radius: 50%;
       padding: 3px;
       position: relative;
@@ -27,7 +27,7 @@ body {
   }
   
    .button-img:hover{
-  background-color: #317cf9;
+  background-color: #184eac;
   }
   
   .buttonContainer{
@@ -70,13 +70,14 @@ body {
   
   #content{
     position: relative;
-    width: 40%;
+    max-width: 80%;
     background-color: #ffffff;
-    left: 50%;
     vertical-align: middle;
-    margin-left: -250;
+    margin-left: 10%;
+    margin-right: 10%;
     margin-top: -40;
-    max-width: 500;
+    min-height: 500;
     box-shadow: black 0px 1px 5px 2px;
-    height: auto;
+    height: 70%;
   }
+
