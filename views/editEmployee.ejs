@@ -1,0 +1,79 @@
+<h1 style="display: flex;
+justify-content: space-between;
+"
+>Update <%= updateUser.name %>
+    <nav style="display: inline-block; margin-top: -8px">
+    <ul>
+        <li>
+            <a class="button" href="/EmployeeList/<%= updateUser._id %>/resetLink">Send Password Reset link</a>
+            <a class="button" href="/EmployeeList/<%= updateUser._id %>/terminate">Mark Terminated</a>
+        </li>
+        <li>
+        </li>
+    </ul>
+    </nav>
+</h1>
+<!-- <%- include ('./partials/messages') %> -->
+<form action="/<%= updateUser._id %>" method="POST">
+<fieldSet>
+  <legend>Information:</legend>
+
+<div>
+    <label for="firstName">First name</label>
+    <input
+      type="name"
+      name="firstName"
+      placeholder="Enter First Name"
+      value="<%= updateUser.firstName ?? '' %>"
+    />
+  
+</div>
+<div>
+    <label for="lastName">Last name</label>
+    <input
+      type="name"
+      name="lastName"
+      placeholder="Enter Last Name"
+      value="<%= updateUser.lastName ?? '' %>"
+    />
+  
+</div>
+<div>
+    <label for="login">Login / Username</label>
+    <input
+      type="text"
+      name="login"
+      placeholder="Enter Login"
+      disabled
+      value="<%= updateUser.login ?? '' %>"
+    />
+</div>
+
+<div>
+  <label for="personalEmail">Email</label>
+  <input
+    type="email"
+    name="personalEmail"
+    placeholder="Enter Email"
+    value="<%= updateUser.personalEmail ?? '' %>"
+  />
+</div>
+
+
+</fieldSet>
+<div>
+  <label for="role">Role</label>
+  <select name="role">
+    <% updateUser.getRoles().forEach((role) => { %>
+        <option value="role"
+            <%= role == updateUser.role ? 'selected' : '' %>
+        ><%= role %></option>
+    <% }) %>
+  </select>
+</div>
+<button type="submit" class="btn btn-primary btn-block">
+    Update
+  </button>
+</form>
+
+

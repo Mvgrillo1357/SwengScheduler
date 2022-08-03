@@ -1,19 +1,23 @@
-<h1>Dashboard</h1>
-<p> Welcome <%= user.name %></p>
-
-<% if (user.role != 'Employee'){ %>
-    <a href="#" class="button">Admin</a>
-<% } %>
-
-<% if (user.role == 'SuperUser'){ %>
-<p>Hello SuperUser</p>
-
-<p> Your organization <%= user.organization.name %> is <%= user.organization.status %>
-<% } %>
+<h1 style="
+display: flex;
+justify-content: space-between;
+">Dashboard 
+<% if (user.role != "Admin") { %>
+    <nav style="display: inline-block; margin-top: -8px;">
+    <ul>
+        <li>
+            <a class="button" href="/cases">Cases</a>
+            <a class="button" href="/RTO">Request Time Off</a>
+        </li>
+    </ul>
+    </nav>
+    <% } %>
+</h1>
+<p class="callout"> Welcome <%= user.name %> (<%= user.role %>)</p>
 
 <% if (user.role == 'Admin') { %>
 <h2>Organizations</h2> 
-<table>
+<table id="data-tables">
     <thead>
         <tr>
             <th>Name</th>
@@ -39,8 +43,38 @@
 </tr>
 <% }) %>
 </table>
+<script>
+    $(document).ready( function () {
+        $('#data-tables').DataTable();
+    } );
+</script>
 <% } %>
 
+<% if (user.role != 'Admin') { %>
+<div id="scheduler_here" class="dhx_cal_container"
+    style='width:100%; height:100%;'>
+    <div class="dhx_cal_navline">
+        <div class="dhx_cal_prev_button">&nbsp;</div>
+        <div class="dhx_cal_next_button">&nbsp;</div>
+        <div class="dhx_cal_today_button"></div>
+        <div class="dhx_cal_date"></div>
+        <div class="dhx_cal_tab" name="day_tab"></div>
+        <div class="dhx_cal_tab" name="week_tab"></div>
+        <div class="dhx_cal_tab" name="month_tab"></div>
+    </div>
+    <div class="dhx_cal_header"></div>
+    <div class="dhx_cal_data"></div>
+</div>
+<script>
+    // set format of dates in the data source
+    scheduler.config.xml_date="%Y-%m-%d %H:%i";
+    scheduler.init('scheduler_here', new Date(), "month");
 
+    scheduler.load("/calendar/data", "json");
 
-<a href="/users/logout">Logout</a>
+    var dp = scheduler.createDataProcessor("/calendar/data");
+    dp.init(scheduler);
+    // use RESTful API on the backend
+    dp.setTransactionMode("REST");
+</script>
+<% } %>

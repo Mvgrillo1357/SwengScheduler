@@ -8,6 +8,7 @@ const session = require('express-session');
 const passport = require("passport");
 const dotenv = require('dotenv');
 const checkIsInRole = require('./config/utils');
+const MongoStore = require('connect-mongo');
 const ENV = dotenv.config().parsed;
 const username = ENV.MONGO_USERNAME;
 const password = ENV.MONGO_PASSWORD;
@@ -18,8 +19,13 @@ require('./config/passport')(passport)
 var uri = `mongodb+srv://${username}:${password}@swengschedule.geddkpi.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose.connect(uri,{useNewUrlParser: true, useUnifiedTopology : true})
-.then(() => console.log('connected,,'))
-.catch((err)=> console.log(err));
+    .then(() => console.log('connected,,'))
+    .catch((err)=> console.log(err));
+
+
+app.locals = ({
+    user: {},
+}); 
 
 //EJS
 app.set('view engine','ejs');
@@ -29,6 +35,7 @@ app.use(express.urlencoded({extended : false}));
 //express session
 app.use(session({
     secret : 'secret',
+    store: MongoStore.create({mongoUrl: uri}),
     resave : true,
     saveUninitialized : true
 }));
@@ -52,12 +59,15 @@ app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
 app.use('/organization',require('./routes/SuperUser'));
 app.use('/organization',
-            //passport.authorize('local', {failureRedirect: '/users/login'}),
             checkIsInRole('Admin'),
             require('./routes/organization'));
 app.use('/Manager',require('./routes/Manager'));
-app.use('/EmployeeList',require('./routes/EmployeeList'));
-app.use('/calendar', require('./routes/calendar'));
+app.use('/EmployeeList',
+            checkIsInRole('SuperUser', 'HR'),
+            require('./routes/EmployeeList'));
+app.use('/calendar', 
+            checkIsInRole('Employee', 'Manager', 'SuperUser', 'HR'),
+            require('./routes/calendar'));
 
 
 app.listen(3000); 

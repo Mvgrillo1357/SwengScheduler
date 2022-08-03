@@ -1,21 +1,52 @@
-<%- include ('./partials/header') %>
-
-<h1>Employee List</h1>
+<h1 style="display: flex;
+justify-content: space-between;
+"
+>>Employee List
+<nav style="display: inline-block; margin-top: -8px">
+    <ul>
+        <li>
+            <a class="button" href="/EmployeeList/create">Add Employee</a>
+        </li>
+        <li>
+        </li>
+    </ul>
+    </nav>
+</h1>
 <%- include ('./partials/messages') %>
 
-
-<h2>users</h2> 
-<table>
+<h2>Users</h2> 
+<table id="data-tables">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Login</th>
+            <th>Last Logged In</th>
+            <th>Actions</th>
         </tr>
     </thead>
 <% users.forEach(function(user) { %>
     
 <tr>
-    <td><%= user.name %></td>
+    <td><%= user.firstName %></td>
+    <td><%= user.lastName %></td>
+    <td><%= user.personalEmail %></td>
+    <td><%= user.role %></td>
+    <td><%= user.login %></td>
+    <td><%= user.lastLoggedInDate %></td>
+    <td>
+        <a href="/EmployeeList/<%= user._id %>">Edit</a> |
+        <span>Mark Terminate</span>
+    </td>
    
 </tr>
 <% }) %>
 </table>
+
+<script>
+    $(document).ready( function () {
+        $('#data-tables').DataTable();
+    } );
+</script>

@@ -1,0 +1,36 @@
+
+<% if(error) { %>
+
+<h1><%= error %></h1>
+<% } else { %>
+<!-- <%- include ('./partials/header') %> -->
+
+<h1>Password Reset</h1>
+<!-- <%- include ('./partials/messages') %> -->
+<form action="" method="POST">
+<div>
+  <label for="password">New Password</label>
+  <input
+    type="password"
+    name="password"
+    placeholder="Enter Password"
+  />
+</div>
+<div>
+  <label for="passwordConfirmation">Confirm Password</label>
+  <input
+    type="password"
+    name="passwordConfirmation"
+    placeholder="Enter Password again"
+  />
+</div>
+
+  <button type="submit" class="btn btn-primary btn-block">
+    Reset
+  </button>
+</form>
+
+<% } %>
+
+
+

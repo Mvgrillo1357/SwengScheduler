@@ -42,6 +42,14 @@ const UserSchema  = new mongoose.Schema({
     },
     secret: {
         type: String,
+    },
+    lastLoggedIn: {
+        type: Date,
+    },
+    status: {
+        type: String,
+        enum: ['active', 'terminated'],
+        default: 'active',
     }
 }, options);
 
@@ -49,6 +57,24 @@ UserSchema.virtual('name')
     .get(function() {
         return this.firstName + ' ' + this.lastName;
     });
+
+UserSchema.virtual('lastLoggedInDate')
+    .get(function() {
+        if(this.lastLoggedIn) {
+            var mm = this.lastLoggedIn.getMonth() + 1; // getMonth() is zero-based
+            var dd = this.lastLoggedIn.getDate();
+          
+            return [this.lastLoggedIn.getFullYear(),
+                    (mm>9 ? '' : '0') + mm,
+                    (dd>9 ? '' : '0') + dd
+                   ].join('-');
+        }
+        return "Never";
+    });
+
+UserSchema.methods.getRoles = function() {
+    return ['Employee', 'SuperUser', 'Manager', 'HR'];
+}
 
 UserSchema.methods.setPassword = async function(newPassword) {
     const user = this;

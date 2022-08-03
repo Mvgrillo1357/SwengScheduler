@@ -67,7 +67,7 @@ router.get('/', async (req,res) =>{
     return res.render('calendar');
 })
 router.get('/data', async (req, res) =>{
-    let calendars = await Calendar.find()
+    let calendars = await Calendar.find({belongsTo: req.user._id});
     calendars = calendars.map((item) => {
         // we need year, month and day from out startDate/ endDate date items
         stringYear= item.startDate.getFullYear();

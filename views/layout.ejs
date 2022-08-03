@@ -5,12 +5,20 @@
 <link rel="stylesheet" type="text/css" href="/css/util.css">
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<script src="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler.js"
+            charset="utf-8"></script>
+      <link href="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler_material.css"
+            rel="stylesheet" type="text/css" charset="utf-8">
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <div id="header">
-		<img src="/images/sweng.png"  class="logo">
+        <%- include ('./partials/header') %>
     </div>
     <div id="content">
         <%- body %>

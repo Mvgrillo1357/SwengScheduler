@@ -1,7 +1,15 @@
-<nav>
+<img src="/images/sweng.png"  class="logo">
+<nav class="header-nav">
 <ul>
-    <li><a href="/"><img src="/images/Logo.png" title="SwengScheduler"/> </a></li>
-    <li><a href="/users/login">Login</a></li>
-    <li><a href="/organization/create">Request New Organization</a></li>
+    <% if(user.role == null) { %>
+        <li><a class="button" href="/users/login">Login</a></li>
+        <li><a class="button" href="/organization/create">Request New Organization</a></li>
+    <% } else { %>
+        <% if(user.role != "Employee" && user.role != "Admin") { %>
+            <li><a class="buttonContainer" href="/admin"><img class="button-img" src="/images/admin.png" /></a></li>
+        <% } %>
+        <li><a class="button" href="/users/logout">Logout</a></li>
+    <% } %>
 </ul>
 </nav>
+
