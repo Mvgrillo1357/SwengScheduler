@@ -1,1 +1,67 @@
-test
+<h1 style="display: flex;
+justify-content: space-between;
+"
+>Create</h1>
+<%= e %>
+<!-- <%- include ('./partials/messages') %> -->
+<form action="./create" method="POST">
+<fieldSet>
+  <legend>Information:</legend>
+
+<div>
+    <label for="firstName">First name</label>
+    <input
+      type="name"
+      name="firstName"
+      placeholder="Enter First Name"
+      value="<%= '' %>"
+    />
+  
+</div>
+<div>
+    <label for="lastName">Last name</label>
+    <input
+      type="name"
+      name="lastName"
+      placeholder="Enter Last Name"
+      value="<%= '' %>"
+    />
+  
+</div>
+<div>
+    <label for="login">Login / Username</label>
+    <input
+      type="text"
+      name="login"
+      placeholder="Enter Login"
+      value="<%= '' %>"
+    />
+</div>
+
+<div>
+  <label for="personalEmail">Email</label>
+  <input
+    type="email"
+    name="personalEmail"
+    placeholder="Enter Email"
+    value="<%= '' %>"
+  />
+</div>
+
+
+</fieldSet>
+<div>
+  <label for="role">Role</label>
+  <select name="role">
+    <% roles.forEach((role) => { %>
+        <option value="<%= role %>"
+        ><%= role %></option>
+    <% }) %>
+  </select>
+</div>
+<button type="submit" class="btn btn-primary btn-block">
+    Create
+  </button>
+</form>
+
+

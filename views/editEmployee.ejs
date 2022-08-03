@@ -14,7 +14,7 @@ justify-content: space-between;
     </nav>
 </h1>
 <!-- <%- include ('./partials/messages') %> -->
-<form action="/<%= updateUser._id %>" method="POST">
+<form action="" method="POST">
 <fieldSet>
   <legend>Information:</legend>
 
@@ -65,7 +65,7 @@ justify-content: space-between;
   <label for="role">Role</label>
   <select name="role">
     <% updateUser.getRoles().forEach((role) => { %>
-        <option value="role"
+        <option value="<%= role %>"
             <%= role == updateUser.role ? 'selected' : '' %>
         ><%= role %></option>
     <% }) %>

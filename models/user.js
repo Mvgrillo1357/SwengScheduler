@@ -50,7 +50,7 @@ const UserSchema  = new mongoose.Schema({
         type: String,
         enum: ['active', 'terminated'],
         default: 'active',
-    }
+    },
 }, options);
 
 UserSchema.virtual('name')
@@ -74,6 +74,16 @@ UserSchema.virtual('lastLoggedInDate')
 
 UserSchema.methods.getRoles = function() {
     return ['Employee', 'SuperUser', 'Manager', 'HR'];
+}
+
+UserSchema.methods.setRole = async function(role) {
+    // Must include overwriteDiscriminatorKey to be able to change the role
+    // https://github.com/Automattic/mongoose/issues/6087#issuecomment-652056299
+    return await User.findByIdAndUpdate(
+        this._id,
+        {role: role},
+        {overwriteDiscriminatorKey: true}
+    )
 }
 
 UserSchema.methods.setPassword = async function(newPassword) {

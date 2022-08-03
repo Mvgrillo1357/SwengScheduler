@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Users = require("../models/user");
+const Employee = require("../models/user");
 const ResetLink = require("../models/ResetLink");
 const crypto = require('crypto');
 const mailer = require('../config/mailer');
@@ -15,13 +16,44 @@ router.get('/', async (req,res) =>{
     });
 });
 router.get('/create', async (req,res) =>{
-    res.render('createEmployee');
+    res.render('createEmployee', {
+        roles: req.user.getRoles(),
+        e: null,
+    });
 });
 
 router.post('/create', async (req,res) =>{
     // Check to see if user exists
-
+    let {firstName, lastName, login, personalEmail, role} = req.body;
     // If the user doesn't exist then create them
+    let newUser = new Users({
+        firstName,
+        lastName,
+        login,
+        personalEmail,
+        organization: req.user.organization,
+    });
+
+    await newUser.setPassword(crypto.randomUUID());
+    try{
+        await newUser.save();
+    }
+    catch(e) {
+        console.log(e);
+        let msg = "An unknown database error occured";
+        if(e.toString().includes("duplicate key")) {
+            msg = "Duplicate value. Please choose a different email";
+        }
+        return res.render('createEmployee', {
+            roles: req.user.getRoles(),
+            e: msg,
+        });
+    }
+    
+
+    await newUser.setRole(role);
+
+    // Send the user an email to reset their password
 
         // Validate the changes and if there is anything invalid, render the create form with the values
 
@@ -85,15 +117,24 @@ router.post('/:id', async (req,res) =>{
     // Validate User Permission and check the user exists
 
     // Update the values for the user
-    let {} = req.body;
-    
-    //Update the values
-    // user.update({values})
+    let {firstName, lastName, personalEmail, role} = req.body;
+    // If the user doesn't exist then create them
+    await Users.updateOne({
+        _id: req.params.id,
+    },{
+        firstName,
+        lastName,
+        personalEmail,
+    });
 
+    let updateUser = await Users.findOne({_id: req.params.id});
+    await updateUser.setRole(role);
     // Validate the changes
 
-    res.render('editEmployee', {
-    });
+    res.redirect('/EmployeeList');
+    // res.render('editEmployee', {
+    //     updateUser,
+    // });
 });
 
 
