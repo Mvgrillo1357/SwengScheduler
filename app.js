@@ -63,11 +63,15 @@ app.use('/organization',
             require('./routes/organization'));
 app.use('/Manager',require('./routes/Manager'));
 app.use('/EmployeeList',
-            checkIsInRole('SuperUser', 'HR'),
+            checkIsInRole('Manager', 'SuperUser', 'HR'),
             require('./routes/EmployeeList'));
 app.use('/calendar', 
             checkIsInRole('Employee', 'Manager', 'SuperUser', 'HR'),
             require('./routes/calendar'));
+
+app.use('/admin', 
+            checkIsInRole('Manager', 'SuperUser', 'HR'),
+            require('./routes/admin'));
 
 
 app.listen(3000); 

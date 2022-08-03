@@ -4,7 +4,6 @@ const Users = require("../models/user");
 const Employee = require("../models/user");
 const ResetLink = require("../models/ResetLink");
 const crypto = require('crypto');
-const mailer = require('../config/mailer');
 const Mailer = require('../config/mailer');
 const { hostname } = require('os');
 
@@ -53,7 +52,35 @@ router.post('/create', async (req,res) =>{
 
     await newUser.setRole(role);
 
+    let link = await ResetLink.create({
+        belongsTo: newUser,
+        hash: crypto.randomUUID(),
+        expires: Date.now() + 24 * 60 * 60 * 1000,
+    });
+
+    await link.save();
+
+    let resetUrl = `http://${req.hostname}:${req.socket.localPort}/users/reset/${link.hash}`;
+    let mailer = new Mailer();
     // Send the user an email to reset their password
+    mailer.sendMail({
+        to: newUser.personalEmail, 
+        from: 'no-reply@swengScheduler.com',
+        subject: 'New Account', 
+        msg: `
+    Hello ${newUser.firstName},
+    This is a message to let you know that you have been added to the ${req.user.organization.name} in SwengScheduler.
+    
+    You can reset your password at the following link:
+
+    <a href="${resetUrl}">${resetUrl}</a>
+
+    The link will only work for 24 hours from this email and can only be used once.
+    
+    If the link has expired, please request a new link from ${req.user.personalEmail}.
+
+    Thank you.`
+    });
 
         // Validate the changes and if there is anything invalid, render the create form with the values
 

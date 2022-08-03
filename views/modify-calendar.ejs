@@ -4,10 +4,8 @@
 <!-- <%- include ('./partials/messages') %> -->
 <form action="/Calendar/CreateEvent" method="POST">
 <fieldSet>
-  <legend>Your Information:</legend>
-
 <div>
-    <label for="name">First name</label>
+    <label for="name">Event Name</label>
     <input
       type="name"
       name="name"
@@ -24,7 +22,6 @@
          <option value="<%- user._id %>"><%- user.name %></option>
         <% }) %>
        </select>
-    />
 </div>
 
 <div>
@@ -70,4 +67,3 @@
     Create Event
   </button>
 </form>
-<p >Have An Account? <a href="/users/login">Login</a></p>

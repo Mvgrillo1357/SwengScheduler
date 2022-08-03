@@ -37,7 +37,7 @@ const User = require("../models/user");
  * 
  */
 router.get('/create', async (req,res) =>{
-    let users = await User.find();
+    let users = await User.find({organization: req.user.organization});
     
     res.render('modify-calendar', {users})
 

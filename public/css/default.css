@@ -25,6 +25,10 @@ nav.header-nav ul {
     border-radius: 5px;
     text-decoration: none;
 }
+.button:hover {
+    background-color: #0940a3;
+    color: white;
+}
 
 p.callout {
     border: 1px solid black;

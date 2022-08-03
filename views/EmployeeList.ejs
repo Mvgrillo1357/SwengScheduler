@@ -2,6 +2,7 @@
 justify-content: space-between;
 "
 >Employee List
+<% if(user.role == "SuperUser" || user.role == "HR") { %> 
 <nav style="display: inline-block; margin-top: -8px">
     <ul>
         <li>
@@ -11,6 +12,7 @@ justify-content: space-between;
         </li>
     </ul>
     </nav>
+    <% } %>
 </h1>
 <%- include ('./partials/messages') %>
 
@@ -26,18 +28,20 @@ justify-content: space-between;
             <th>Actions</th>
         </tr>
     </thead>
-<% users.forEach(function(user) { %>
+<% users.forEach(function(item) { %>
     
 <tr>
-    <td><%= user.firstName %></td>
-    <td><%= user.lastName %></td>
-    <td><%= user.personalEmail %></td>
-    <td><%= user.role %></td>
-    <td><%= user.login %></td>
-    <td><%= user.lastLoggedInDate %></td>
+    <td><%= item.firstName %></td>
+    <td><%= item.lastName %></td>
+    <td><%= item.personalEmail %></td>
+    <td><%= item.role %></td>
+    <td><%= item.login %></td>
+    <td><%= item.lastLoggedInDate %></td>
     <td>
-        <a href="/EmployeeList/<%= user._id %>">Edit</a> |
-        <span>Mark Terminate</span>
+        <% if(user.role == "SuperUser" || user.role == "HR") { %> 
+            <a href="/EmployeeList/<%= user._id %>">Edit</a> |
+            <span>Mark Terminate</span>
+        <% } %>
     </td>
    
 </tr>
