@@ -27,6 +27,7 @@ margin-bottom: 10px;
             <th>Login</th>
             <th>Manager</th>
             <th>Last Logged In</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -40,10 +41,13 @@ margin-bottom: 10px;
     <td><%= item.login %></td>
     <td><% if (item.manager) {%> <%= item.manager.name %> (<%= item.manager.login %>) <% } %></td>
     <td><%= item.lastLoggedInDate %></td>
+    <td><%= item.status %></td>
     <td>
         <% if(user.role == "SuperUser" || user.role == "HR") { %> 
             <a href="/EmployeeList/<%= item._id %>">Edit</a> |
-            <span>Mark Terminate</span>
+            <form action="/employeelist/remove/<%= item._id %>" method="POST">
+                <button type="submit" class="btn btn-primary btn-block"><span>Mark Terminate</span></button>
+            </form>
         <% } %>
     </td>
    

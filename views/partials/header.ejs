@@ -8,6 +8,7 @@
         <% if(user.role != "Employee" && user.role != "Admin") { %>
             <li><a class="buttonContainer" href="/admin"><img class="button-img" src="/images/admin.png" /></a></li>
         <% } %>
+        <li><a class="button" href="/setup-2fa">Set Up 2 FA</a></li>
         <li><a class="button" href="/users/logout">Logout</a></li>
     <% } %>
 </ul>

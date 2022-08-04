@@ -29,10 +29,10 @@ var COLORS = [
     'blue',
     'green',
     'red',
-    'yellow',
+    'gold',
     'orange',
     'purple',
-    'magenta'
+    'mediumorchid'
 ];
 /**
  * Calendar Event Route

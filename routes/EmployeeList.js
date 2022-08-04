@@ -6,6 +6,7 @@ const ResetLink = require("../models/ResetLink");
 const crypto = require('crypto');
 const Mailer = require('../config/mailer');
 const { hostname } = require('os');
+const { set } = require('mongoose');
 
 router.get('/', async (req,res) =>{
     const users = await Users.find({organization: req.user.organization._id}).populate('manager');
@@ -176,6 +177,17 @@ router.post('/:id', async (req,res) =>{
     // });
 });
 
+router.post('/remove/:id', async (req,res) =>{
+    // this is to terminate an employee
+    // find the user
+    let user = await Users.findOne({_id: req.params.id});
+    //set the status to terminated
+    user.status= "terminated"
+    await user.save();
+    // reurn to employee list
+    res.redirect('/EmployeeList');
+
+})
 
 
 
