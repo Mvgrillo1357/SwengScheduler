@@ -1,0 +1,82 @@
+<h1 style="
+display: flex;
+justify-content: space-between;
+">Manage Calendar</h1>
+
+<% if (users.length > 0) {%> 
+<p class="callout"> Use the Calendar Below to add and remove events</p>
+
+<div id="scheduler_here" class="dhx_cal_container"
+    style='width:100%; height:100%;'>
+    <div class="dhx_cal_navline">
+        <div class="dhx_cal_prev_button">&nbsp;</div>
+        <div class="dhx_cal_next_button">&nbsp;</div>
+        <div class="dhx_cal_today_button"></div>
+        <div class="dhx_cal_date"></div>
+        <div class="dhx_cal_tab" name="day_tab"></div>
+        <div class="dhx_cal_tab" name="week_tab"></div>
+        <div class="dhx_cal_tab" name="month_tab"></div>
+    </div>
+    <div class="dhx_cal_header"></div>
+    <div class="dhx_cal_data"></div>
+</div>
+<style>
+    <% users.forEach( (user, index) =>{ %>
+        .dhx_cal_event.event_<%= user.key %> div {
+            background-color: <%= COLORS[index % COLORS.length] %> !important;
+            border-color: <%= COLORS[index % COLORS.length] %> !important;
+        }
+        .dhx_cal_event_clear.event_<%= user.key %> {
+            color: <%= COLORS[index % COLORS.length] %> !important;
+        }
+    <% }) %>
+</style>
+
+<script>
+    // set format of dates in the data source
+    scheduler.config.xml_date="%Y-%m-%d %H:%i";
+    scheduler.config.timeshift= false ;
+    scheduler.config.time_step = 15;
+    scheduler.config.details_on_create = true;
+    scheduler.config.server_utc = true;
+
+
+    scheduler.plugins({
+        editors: true,
+    });
+    scheduler.init('scheduler_here', new Date(), "month");
+
+    scheduler.templates.event_class=function(start, end, event){
+        var css = "";
+
+        if(event.employee) // if event has subject property then special class should be assigned
+            css += "event_"+event.employee;
+
+        if(event.id == scheduler.getState().select_id){
+            css += " selected";
+        }
+        return css; // default return
+    };
+    
+    scheduler.locale.labels.section_employee = "Employee:";
+    
+    var employees = <%- JSON.stringify(users) %>;
+    
+    scheduler.config.lightbox.sections = [
+        { name: "description", height: 50, map_to: "text", type: "textarea", focus: true },
+        { name: "employee", options: employees, map_to: "employee", type: "select", image_path: "//cdn.dhtmlx.com/edge/imgs/", height:30, filtering: true },
+        { name: "time", height: 72, type: "time", map_to: "auto"}
+    ];
+
+    scheduler.setLoadMode("month");
+    scheduler.load("/calendar/manage/api", "json");
+
+
+    var dp = new scheduler.DataProcessor('/calendar/manage/api');
+    dp.init(scheduler);
+    // use RESTful API on the backend
+    dp.setTransactionMode("JSON");
+</script>
+<% } else { %>
+    <p class="callout"> You are not currently managing any users </p>
+<% } %>

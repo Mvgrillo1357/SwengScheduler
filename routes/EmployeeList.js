@@ -8,22 +8,28 @@ const Mailer = require('../config/mailer');
 const { hostname } = require('os');
 
 router.get('/', async (req,res) =>{
-    const users = await Users.find({organization: req.user.organization._id});
+    const users = await Users.find({organization: req.user.organization._id}).populate('manager');
+
     res.render('EmployeeList',{
         user: req.user,
         users
     });
+
 });
+
 router.get('/create', async (req,res) =>{
+    const managers = await Users.find({role: ['Manager', 'HR', 'SuperUser'], organization: req.user.organization});
     res.render('createEmployee', {
         roles: req.user.getRoles(),
+        managers,
         e: null,
     });
 });
 
 router.post('/create', async (req,res) =>{
     // Check to see if user exists
-    let {firstName, lastName, login, personalEmail, role} = req.body;
+    let {firstName, lastName, login, personalEmail, role, manager} = req.body;
+    if(manager == '') manager = null;
     // If the user doesn't exist then create them
     let newUser = new Users({
         firstName,
@@ -31,6 +37,7 @@ router.post('/create', async (req,res) =>{
         login,
         personalEmail,
         organization: req.user.organization,
+        manager
     });
 
     await newUser.setPassword(crypto.randomUUID());
@@ -91,13 +98,16 @@ router.post('/create', async (req,res) =>{
 });
 
 router.get('/:id', async (req,res) =>{
+    const managers = await Users.find({role: ['Manager', 'HR', 'SuperUser'], organization: req.user.organization});
     // Validate User permission and check the user exists
 
     // Query for the user
-    let user = await Users.findOne({_id: req.params.id});
+    let user = await Users.findOne({_id: req.params.id}).populate('manager');
+
     // Render the update form
     res.render('editEmployee', {
         updateUser: user,
+        managers,
     });
 });
 
@@ -142,9 +152,10 @@ router.get('/:id/resetLink', async (req,res) =>{
 
 router.post('/:id', async (req,res) =>{
     // Validate User Permission and check the user exists
-
+    
     // Update the values for the user
-    let {firstName, lastName, personalEmail, role} = req.body;
+    let {firstName, lastName, personalEmail, role, manager} = req.body;
+    if(manager == '') manager = null;
     // If the user doesn't exist then create them
     await Users.updateOne({
         _id: req.params.id,
@@ -152,6 +163,7 @@ router.post('/:id', async (req,res) =>{
         firstName,
         lastName,
         personalEmail,
+        manager
     });
 
     let updateUser = await Users.findOne({_id: req.params.id});

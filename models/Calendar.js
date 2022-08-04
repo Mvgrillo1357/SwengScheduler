@@ -11,25 +11,14 @@ const CalendarSchema  = new mongoose.Schema({
         ref: 'User',
         // required: true,
     },
-    startDate :{
+    start_date :{
         type : Date,
         default : Date.now
     },
-
-    startTime :{
-        type : String,
-        default : "00:00",
-    },
-
-    endDate :{
+    end_date :{
         type : Date,
         default : Date.now + 100,
-    },
-
-    endTime :{
-        type : String,
-        default : "00:00",
-    },
+    }
 });
 
 const Calendar = mongoose.model('Calendar', CalendarSchema);

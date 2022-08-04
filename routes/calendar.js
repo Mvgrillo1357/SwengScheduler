@@ -25,7 +25,15 @@ const User = require("../models/user");
 //     res.redirect('/dashboard');
 // });
 
-
+var COLORS = [
+    'blue',
+    'green',
+    'red',
+    'yellow',
+    'orange',
+    'purple',
+    'magenta'
+];
 /**
  * Calendar Event Route
  * 
@@ -36,32 +44,79 @@ const User = require("../models/user");
  * URL : /Calendar/create
  * 
  */
-router.get('/create', async (req,res) =>{
-    let users = await User.find({organization: req.user.organization});
+router.get('/manage', async (req,res) =>{
+    let users = await User.find({organization: req.user.organization, manager: req.user});
     
-    res.render('modify-calendar', {users})
+    users = users.map((user) => {return {
+        key: user._id,
+        label: user.name,
+    }});
+
+    res.render('manage-calendar', {users, COLORS})
 
 });
 
-// Create Events in the Calendar
-router.post('/CreateEvent', async (req,res) => {
-    const {name, belongsTo, startDate, startTime, endDate, endTime} = req.body;
-    const newCalendar = new Calendar({
-        name, 
-        belongsTo, 
-        startDate,
-        startTime,
-        endDate,
-        endTime,
+router.get('/manage/api', async (req,res) =>{
+    let users = await User.find({organization: req.user.organization, manager: req.user});
+    let events = await Calendar.find(
+        {
+            belongsTo: users,
+            start_date: {$gte: req.query.from, $lte: req.query.to },
+            end_date: {$gte: req.query.from, $lte: req.query.to },
+        }
+    ).populate('belongsTo');
+    
+    events = events.map((item) => {
+        // we need year, month and day from out startDate/ endDate date items
+        return {
+           id: item._id,
+           employee: item.belongsTo._id,
+           text: item.name,
+           start_date: item.start_date,
+           end_date: item.end_date,
+        }
     });
+    res.json(events);
 
-   
-    await newCalendar.save();
+});
 
-    res.redirect('/Calendar');
-})
+router.post('/manage/api', async (req,res) =>{
+    let { start_date, end_date, text, employee } = req.body.data;
+    let response;
+    if( req.body.action == 'inserted') {
+        response = await Calendar.create({
+            start_date,
+            end_date,
+            name: text,
+            belongsTo: employee,
+        });
+        return res.json({
+            action: 'inserted',
+            tid: response._id,
+        })
+    }
+    if( req.body.action == 'updated' ) {
+        let id = req.body.id;
+        response = await Calendar.updateOne(
+            {_id: id},
+            {
+                start_date,
+                end_date,
+                name: text,
+                belongsTo: employee,
+            }
+        );
+    }
 
-
+    if( req.body.action == 'deleted' ) {
+        let id = req.body.id;
+        response = await Calendar.deleteOne(
+            {_id: id}
+        );
+    }
+    
+    res.json(response);
+});
 
 router.get('/', async (req,res) =>{
     return res.render('calendar');
@@ -70,22 +125,13 @@ router.get('/data', async (req, res) =>{
     let calendars = await Calendar.find({belongsTo: req.user._id});
     calendars = calendars.map((item) => {
         // we need year, month and day from out startDate/ endDate date items
-        stringYear= item.startDate.getFullYear();
-        stringMonth= item.startDate.getMonth()+1;
-        stringDay= item.startDate.getDate();
         return {
            text: item.name,
-           start_date:`${stringYear}-${stringMonth}-${stringDay} ${item.startTime}`,
-           end_date:`${stringYear}-${stringMonth}-${stringDay} ${item.endTime}`,
+           start_date: item.start_date,
+           end_date: item.end_date,
         }
       })
-    return res.json(calendars
-        // { id:1, start_date: "2022-04-15 09:00", end_date: "2022-04-15 12:00", text:"English lesson" },
-        // { id:2, start_date: "2022-04-16 10:00", end_date: "2022-04-16 16:00", text:"Math exam" },
-        // { id:3, start_date: "2022-04-16 10:00", end_date: "2022-04-21 16:00", text:"Science lesson" },
-        // { id:4, start_date: "2022-04-17 16:00", end_date: "2022-04-17 17:00", text:"English lesson" },
-        // { id:5, start_date: "2022-04-18 09:00", end_date: "2022-04-18 17:00", text:"Usual event" }
-    );
+    return res.json(calendars);
 })
 
 module.exports  = router;

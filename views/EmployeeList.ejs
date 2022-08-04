@@ -1,5 +1,6 @@
 <h1 style="display: flex;
 justify-content: space-between;
+margin-bottom: 10px;
 "
 >Employee List
 <% if(user.role == "SuperUser" || user.role == "HR") { %> 
@@ -24,6 +25,7 @@ justify-content: space-between;
             <th>Email</th>
             <th>Role</th>
             <th>Login</th>
+            <th>Manager</th>
             <th>Last Logged In</th>
             <th>Actions</th>
         </tr>
@@ -36,10 +38,11 @@ justify-content: space-between;
     <td><%= item.personalEmail %></td>
     <td><%= item.role %></td>
     <td><%= item.login %></td>
+    <td><% if (item.manager) {%> <%= item.manager.name %> (<%= item.manager.login %>) <% } %></td>
     <td><%= item.lastLoggedInDate %></td>
     <td>
         <% if(user.role == "SuperUser" || user.role == "HR") { %> 
-            <a href="/EmployeeList/<%= user._id %>">Edit</a> |
+            <a href="/EmployeeList/<%= item._id %>">Edit</a> |
             <span>Mark Terminate</span>
         <% } %>
     </td>
@@ -47,9 +50,3 @@ justify-content: space-between;
 </tr>
 <% }) %>
 </table>
-
-<script>
-    $(document).ready( function () {
-        $('#data-tables').DataTable();
-    } );
-</script>

@@ -66,8 +66,21 @@ justify-content: space-between;
   <select name="role">
     <% updateUser.getRoles().forEach((role) => { %>
         <option value="<%= role %>"
-            <%= role == updateUser.role ? 'selected' : '' %>
+            <%= role === updateUser.role ? 'selected' : '' %>
         ><%= role %></option>
+    <% }) %>
+  </select>
+</div>
+
+<div>
+  <label for="manager">Manager</label>
+  <select name="manager">
+    <option></option>
+    <% managers.forEach((manager) => { %>
+        <option 
+          value="<%= manager._id %>" 
+        <% if(updateUser.manager && updateUser.manager._id.toString() == manager._id.toString()) { %> selected <% } %>
+        ><%= manager.name %></option>
     <% }) %>
   </select>
 </div>

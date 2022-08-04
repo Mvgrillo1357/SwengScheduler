@@ -12,7 +12,6 @@ const MongoStore = require('connect-mongo');
 const ENV = dotenv.config().parsed;
 const username = ENV.MONGO_USERNAME;
 const password = ENV.MONGO_PASSWORD;
-
 //passport config:
 require('./config/passport')(passport)
 //mongoose
@@ -31,6 +30,7 @@ app.locals = ({
 app.set('view engine','ejs');
 app.use(expressEjsLayout);
 //BodyParser
+app.use(express.json());
 app.use(express.urlencoded({extended : false}));
 //express session
 app.use(session({
@@ -53,6 +53,12 @@ app.use((req,res,next)=> {
     res.locals.error  = req.flash('error');
     next();
 })
+app.use((req,res,next) => {
+    if(req.user) app.locals = ({
+        user: req.user,
+    })
+    next();
+});
     
 //Routes
 app.use('/',require('./routes/index'));

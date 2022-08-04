@@ -43,11 +43,6 @@ justify-content: space-between;
 </tr>
 <% }) %>
 </table>
-<script>
-    $(document).ready( function () {
-        $('#data-tables').DataTable();
-    } );
-</script>
 <% } %>
 
 <% if (user.role != 'Admin') { %>
@@ -68,13 +63,10 @@ justify-content: space-between;
 <script>
     // set format of dates in the data source
     scheduler.config.xml_date="%Y-%m-%d %H:%i";
+    scheduler.config.readonly = true;
+
     scheduler.init('scheduler_here', new Date(), "month");
 
     scheduler.load("/calendar/data", "json");
-
-    var dp = scheduler.createDataProcessor("/calendar/data");
-    dp.init(scheduler);
-    // use RESTful API on the backend
-    dp.setTransactionMode("REST");
 </script>
 <% } %>

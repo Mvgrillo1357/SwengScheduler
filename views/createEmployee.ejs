@@ -59,6 +59,18 @@ justify-content: space-between;
     <% }) %>
   </select>
 </div>
+
+<div>
+  <label for="manager">Manager</label>
+  <select name="manager">
+    <option></option>
+    <% managers.forEach((manager) => { %>
+        <option value="<%= manager._id %>"
+            
+        ><%= manager.name %></option>
+    <% }) %>
+  </select>
+</div>
 <button type="submit" class="btn btn-primary btn-block">
     Create
   </button>

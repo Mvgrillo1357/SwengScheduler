@@ -51,6 +51,10 @@ const UserSchema  = new mongoose.Schema({
         enum: ['active', 'terminated'],
         default: 'active',
     },
+    manager :{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', 
+    },
 }, options);
 
 UserSchema.virtual('name')
