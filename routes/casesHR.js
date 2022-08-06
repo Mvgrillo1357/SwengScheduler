@@ -4,15 +4,21 @@ const Case = require("../models/Case");
 
 router.get('/', async (req,res) =>{
     // find all cases that belong to a User model
-    let CasesList= await Case.find({org: req.user.organization});
-    res.render('CasesListRender', {CasesList});
+    let CasesList= await Case.find({org: req.user.organization}).populate('belongsTo');
+    res.render('CasesListRender', {
+        CasesList,
+        route: 'casesHR'
+    });
 
 });
 
 router.get('/comments/:id', async (req,res) =>{
     // find all comments that belong to a Case model
     let CommentsList= await Case.findOne({_id: req.params.id}).populate('notes.writer');
-    res.render('CommentsListRender', {CommentsList});
+    res.render('CommentsListRender', {
+        CommentsList,
+        route: 'casesHR'
+    });
 
 });
 
@@ -41,7 +47,7 @@ router.post('/comments/:_id', async (req,res) =>{
     
     // req.flash('success', `Your case, ${req.user.organization.status} has been opened. Please wait until it is resolved.`);
     // find all cases that belong to a User model
-    res.redirect(`/casesUser/comments/${CommentsList._id}`);
+    res.redirect(`/casesHR/comments/${CommentsList._id}`);
 
 });
 

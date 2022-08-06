@@ -140,3 +140,40 @@ body {
     box-shadow: black 0px 1px 5px 2px;
   }
 
+.comments {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 2;
+}
+
+.comments .comment {
+    margin: 5px;
+    width: 60%;
+    padding: 15px;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 5px;
+}
+.comment.other {
+    background-color: #e2e2f6;
+    align-self: flex-end;
+}
+.comment.mine {
+    background-color: #a3e0bc75;   
+}
+.comments p {
+    width: 50%;
+}
+.comment .writer {
+    font-size: 16px;
+    font-weight: bold;
+}
+.comment .date {
+    text-align: right;
+}
+.comment .text {
+    width: 100%;
+    margin-top:5px;
+    border-top: 1px solid grey;
+}

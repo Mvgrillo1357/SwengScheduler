@@ -66,32 +66,36 @@ router.post('/manage/api', async (req,res) =>{
     let { start_date, end_date, text, employee } = req.body.data;
     let response;
     let id = req.body.id;
+    
     // CHecking for an overlapping schedule
     // https://stackoverflow.com/questions/26876803/mongodb-find-date-range-if-overlap-with-other-dates
-    let result = await Calendar.findOne({
+    if(req.body.action != 'inserted') {
+        let result = await Calendar.findOne({
             belongsTo: employee,
-            // _id: {$ne: id},
+            _id: {$ne: id},
             start_date: {$lte: end_date}, 
             end_date: {$gte: start_date},
-    });
-    if(result)
-    {
-        if(req.body.action == 'inserted') {
-            return res.json({
-                action: 'error',
-                prevAction: req.body.action,
-                msg: 'User is already scheduled to work at that time'
-            });
-        }
-        if(req.body.action == 'updated') {
-            let result = await Calendar.findOne({_id: req.body.id});
-            return res.json({
-                action: 'error',
-                prevAction: req.body.action,
-                start_date: result.start_date,
-                end_date: result.end_date,
-                msg: 'User is already scheduled to work at that time'
-            })
+        });
+    
+        if(result)
+        {
+            if(req.body.action == 'inserted') {
+                return res.json({
+                    action: 'error',
+                    prevAction: req.body.action,
+                    msg: 'User is already scheduled to work at that time'
+                });
+            }
+            if(req.body.action == 'updated') {
+                let result = await Calendar.findOne({_id: req.body.id});
+                return res.json({
+                    action: 'error',
+                    prevAction: req.body.action,
+                    start_date: result.start_date,
+                    end_date: result.end_date,
+                    msg: 'User is already scheduled to work at that time'
+                })
+            }
         }
     }
     

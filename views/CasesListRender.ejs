@@ -6,7 +6,7 @@ justify-content: space-between;
     <nav style="display: inline-block; margin-top: -8px;">
     <ul>
         <li>
-            <a class="button" href="/casesUser/create">Open a New Case</a>
+            <% if (route == 'casesUser') {%> <a class="button" href="/<%= route %>/create">Open a New Case</a> <% } %>
         </li>
     </ul>
     </nav>
@@ -17,24 +17,18 @@ justify-content: space-between;
         <tr>
             <th>Description</th>
             <th>Status</th>
+            <% if (route == 'casesHR') { %> <th>Opened By</th> <% } %>
             <th>Link to Comments</th>
         </tr>
     </thead>
 <% CasesList.forEach(function(Case) { %>
-    
-<tr>
-    <td><%= Case.description %></td>
-    <td><%= Case.status %></td>
-    <!-- <td><% if (Case.requestedBy) { %> <%= Case.requestedBy.name %> <%- Case.requestedBy.personalEmail %> <% } %></td> -->
-    <td>
-        <!-- <% if (Case.status == 'Pending' || Case.status == 'Denied') { %>
-            <a href="/Caseanization/approve/<%= Case._id%>">Approve</a>
-        <% } if (Case.status == 'Pending' || Case.status == 'Approved') {%>
-            <a href="/Caseanization/deny/<%= Case._id%>">Deny</a>
-        <% } %>
-            <a href="/Caseanization/delete/<%= Case._id%>">Delete</a> -->
-            <a href="/CasesUser/Comments/<%= Case._id%>">Link to Comments</a> -->
-    </td>
-</tr>
+    <tr>
+        <td><%= Case.description %></td>
+        <td><%= Case.status %></td>
+        <% if (route == 'casesHR') { %> <td><%= Case.belongsTo.name %></td> <% } %>
+        <td>
+                <a href="/<%= route %>/Comments/<%= Case._id%>">Link to Comments</a>
+        </td>
+    </tr>
 <% }) %>
 </table>
