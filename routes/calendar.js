@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Calendar = require("../models/Calendar");
 const User = require("../models/user");
+const mailer = require("../config/mailer");
+const mail = new mailer();
+ 
 
 var COLORS = [
     'blue',
@@ -22,6 +25,7 @@ var COLORS = [
  * URL : /Calendar/create
  * 
  */
+
 router.get('/manage', async (req,res) =>{
     let users = await User.find({organization: req.user.organization, manager: req.user});
     
@@ -66,7 +70,7 @@ router.post('/manage/api', async (req,res) =>{
     // https://stackoverflow.com/questions/26876803/mongodb-find-date-range-if-overlap-with-other-dates
     let result = await Calendar.findOne({
             belongsTo: employee,
-            _id: {$ne: id},
+            // _id: {$ne: id},
             start_date: {$lte: end_date}, 
             end_date: {$gte: start_date},
     });
@@ -90,7 +94,9 @@ router.post('/manage/api', async (req,res) =>{
             })
         }
     }
-        
+    
+    let user = await User.findOne({_id: employee})
+
     if( req.body.action == 'inserted') {
         
         response = await Calendar.create({
@@ -99,6 +105,15 @@ router.post('/manage/api', async (req,res) =>{
             name: text,
             belongsTo: employee,
         });
+        mail.sendMail({
+            to: user.personalEmail,
+            from: "no-reply@swengScheduler.com",
+            subject: "New schedule was added",
+            msg: `
+         Hello ${user.firstName},
+         Please check you SwengScheduler app to see the new shift.
+         New shift was added for you starting from ${start_date} to ${end_date}.`,
+          });
         return res.json({
             action: 'inserted',
             tid: response._id,
@@ -115,13 +130,32 @@ router.post('/manage/api', async (req,res) =>{
                 belongsTo: employee,
             }
         );
+        mail.sendMail({
+            to: user.personalEmail,
+            from: "no-reply@swengScheduler.com",
+            subject: "Schedule update",
+            msg: `
+         Hello ${user.firstName},
+         Please check you SwengScheduler app to see the updates that was applied to your schedule.
+         ${text} shift was Updated to ${start_date} -  ${end_date}.`,
+          });
     }
 
     if( req.body.action == 'deleted' ) {
         let id = req.body.id;
+        let user = (await Calendar.findOne({_id: id}).populate("belongsTo")).belongsTo
         response = await Calendar.deleteOne(
             {_id: id}
         );
+        mail.sendMail({
+            to: user.personalEmail,
+            from: "no-reply@swengScheduler.com",
+            subject: "Schedule deleted",
+            msg: `
+         Hello ${user.firstName},
+         Please check you SwengScheduler app to stay up to date.
+         You have a shift that was removed.`,
+          });
     }
     
     res.json(response);
