@@ -76,6 +76,18 @@ justify-content: space-between;
     dp.init(scheduler);
     // use RESTful API on the backend
     dp.setTransactionMode("JSON");
+    dp.attachEvent("onAfterUpdate", function(id, action, tid, response){
+    if(action == "error"){
+        if(response.prevAction == 'updated') {
+            scheduler.clearAll();
+            scheduler.load("/calendar/manage/api", "json");
+        } else {
+            scheduler.deleteEvent(tid, true);
+        }
+        scheduler.alert(response.msg);
+    }
+});
+
 </script>
 <% } else { %>
     <p class="callout"> You are not currently managing any users </p>

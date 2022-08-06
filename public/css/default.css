@@ -39,6 +39,34 @@ p.callout {
     font-weight: bold;
 }
 
+.messages p.alert {
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid black;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 5px;
+    margin: 2px;
+    border-radius: 5px;
+}
+.messages p.error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+.messages p.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.messages p.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.messages p.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+
 body {
     background-color:#ebebeb;
   }

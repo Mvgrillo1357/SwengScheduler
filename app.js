@@ -21,11 +21,6 @@ mongoose.connect(uri,{useNewUrlParser: true, useUnifiedTopology : true})
     .then(() => console.log('connected,,'))
     .catch((err)=> console.log(err));
 
-
-app.locals = ({
-    user: {},
-}); 
-
 //EJS
 app.set('view engine','ejs');
 app.use(expressEjsLayout);
@@ -48,15 +43,39 @@ app.use(express.static('public'))
 
 
 app.use((req,res,next)=> {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error  = req.flash('error');
+    const MSG_TYPES = ['success', 'info', 'warning', 'error'];
+    app.locals.messages = [];
+
+    MSG_TYPES.forEach((type) => {
+        req.flash(type).forEach(msg => {
+            app.locals.messages.push({type, text:msg})
+        });
+    });
+
     next();
-})
+});
+
 app.use((req,res,next) => {
-    if(req.user) app.locals = ({
-        user: req.user,
-    })
+    if(req.user) app.locals.user = req.user;
+    else app.locals.user = {};
+    next();
+});
+
+app.use((req,res,next) => {
+    if(req.path == '/' || req.path == '/users/login' || req.path == '/users/logout') return next();
+    
+    if(req.user && req.user.status == 'terminated') {
+        req.flash('error', `You have been terminated from ${req.user.organization.name}. Please contact your HR representative for more details.`);
+        return res.redirect('/');
+    }
+
+    if(req.user && req.user.role !='Admin' && req.user.organization.status != 'Approved') {
+        if(req.user.organization.status == 'Pending')
+            req.flash('warning', `Your organization is ${req.user.organization.status}. Please wait until it is approved.`);
+        if(req.user.organization.status == 'Denied')
+            req.flash('error', `Your organization is ${req.user.organization.status}. Please contact our team for more information.`);
+        return res.redirect('/');
+    }
     next();
 });
     

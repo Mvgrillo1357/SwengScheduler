@@ -3,28 +3,6 @@ const router = express.Router();
 const Calendar = require("../models/Calendar");
 const User = require("../models/user");
 
-// router.get('/approve/:id', async (req,res) =>{
-//     try {
-//     const org = await Organization.findOne({_id: req.params.id});
-//     org.status = "Approved";
-//     org.save();
-//     res.redirect('/dashboard');
-//     }catch (e) {
-//         res.redirect('/dashboard');
-//     }
-// });
-// router.get('/deny/:id', async (req,res) =>{
-//     const org = await Organization.findOne({_id: req.params.id});
-//     org.status = "Denied";
-//     org.save();
-//     res.redirect('/dashboard');
-// });
-// router.get('/delete/:id', async (req,res) =>{
-//     const org = await Organization.deleteOne({_id: req.params.id});
-//     req.flash('msg', 'organization was deleted');
-//     res.redirect('/dashboard');
-// });
-
 var COLORS = [
     'blue',
     'green',
@@ -83,7 +61,38 @@ router.get('/manage/api', async (req,res) =>{
 router.post('/manage/api', async (req,res) =>{
     let { start_date, end_date, text, employee } = req.body.data;
     let response;
+    let id = req.body.id;
+    // CHecking for an overlapping schedule
+    // https://stackoverflow.com/questions/26876803/mongodb-find-date-range-if-overlap-with-other-dates
+    let result = await Calendar.findOne({
+            belongsTo: employee,
+            _id: {$ne: id},
+            start_date: {$lte: end_date}, 
+            end_date: {$gte: start_date},
+    });
+    if(result)
+    {
+        if(req.body.action == 'inserted') {
+            return res.json({
+                action: 'error',
+                prevAction: req.body.action,
+                msg: 'User is already scheduled to work at that time'
+            });
+        }
+        if(req.body.action == 'updated') {
+            let result = await Calendar.findOne({_id: req.body.id});
+            return res.json({
+                action: 'error',
+                prevAction: req.body.action,
+                start_date: result.start_date,
+                end_date: result.end_date,
+                msg: 'User is already scheduled to work at that time'
+            })
+        }
+    }
+        
     if( req.body.action == 'inserted') {
+        
         response = await Calendar.create({
             start_date,
             end_date,
@@ -124,7 +133,6 @@ router.get('/', async (req,res) =>{
 router.get('/data', async (req, res) =>{
     let calendars = await Calendar.find({belongsTo: req.user._id});
     calendars = calendars.map((item) => {
-        // we need year, month and day from out startDate/ endDate date items
         return {
            text: item.name,
            start_date: item.start_date,
