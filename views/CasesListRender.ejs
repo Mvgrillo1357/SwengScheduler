@@ -17,7 +17,7 @@ justify-content: space-between;
         <tr>
             <th>Description</th>
             <th>Status</th>
-            <th>Request By</th>
+            <th>Link to Comments</th>
         </tr>
     </thead>
 <% CasesList.forEach(function(Case) { %>
@@ -33,7 +33,7 @@ justify-content: space-between;
             <a href="/Caseanization/deny/<%= Case._id%>">Deny</a>
         <% } %>
             <a href="/Caseanization/delete/<%= Case._id%>">Delete</a> -->
-        
+            <a href="/CasesUser/Comments/<%= Case._id%>">Link to Comments</a> -->
     </td>
 </tr>
 <% }) %>

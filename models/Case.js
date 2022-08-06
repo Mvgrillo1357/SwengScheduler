@@ -22,6 +22,7 @@ const CaseSchema  = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId, 
             ref: 'User',
         },
+        timeStamp: {type: Date},
     }],
     org: {
         type: mongoose.Schema.Types.ObjectId, 

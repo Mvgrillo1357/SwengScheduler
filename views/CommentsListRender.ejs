@@ -1,0 +1,74 @@
+
+<h1 style="
+display: flex;
+justify-content: space-between;
+">Case View 
+    <nav style="display: inline-block; margin-top: -8px;">
+    <ul>
+        <li>
+            <a class="button" href="/casesUser/create">Open a New Case</a>
+            <a class="button" href="/casesUser">Go to User Case List</a>
+        </li>
+    </ul>
+    </nav>
+</h1>
+
+<!-- status: {
+    type: String,
+    default: 'un-assigned',
+    enum: ['in-progress', 'resolved', 'denied', 'un-assigned'],
+}, -->
+
+<form action="/casesHR/status/<%=CommentsList._id %>" method="POST">
+    <select name="status" >
+        <option value="in-progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+        <option value="denied">Denied</option>
+    </select>
+    
+    <button type="submit" class="btn btn-primary btn-block">
+        Create
+    </button>
+</form>
+
+
+<!-- notes: [{
+    comment: { type: String },
+    writer: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
+    },
+    timeStamp: {type: Date},
+}], -->
+<form action="" method="POST">
+    <fieldSet>
+      <legend>Information:</legend>
+    </fieldSet>
+    <div>
+        <label for="comment">Description</label>
+        <textarea
+          name="comment"
+          placeholder=""        
+        >
+        </textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary btn-block">
+        Create
+    </button>
+    </form>
+<!-- return the most recent comments first by default the array sorts ascending so reversing returns the most recent commetns first -->
+<% CommentsList.notes.reverse().forEach(function(Comment) { %>
+    <div>
+        <p>
+            <%=Comment.writer.name %>
+        </p>
+        <p>
+            <%=Comment.timeStamp %>
+        </p>
+        <p>
+            <%=Comment.comment %>
+        </p>
+    </div>
+
+<% }) %>
