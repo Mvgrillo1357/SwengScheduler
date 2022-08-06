@@ -93,7 +93,12 @@ app.use('/EmployeeList',
 app.use('/calendar', 
             checkIsInRole('Employee', 'Manager', 'SuperUser', 'HR'),
             require('./routes/calendar'));
-
+app.use('/casesUser', 
+            checkIsInRole('Employee', 'Manager', 'SuperUser', 'HR'), 
+            require('./routes/casesUser.js'));
+app.use('/casesHR', 
+            checkIsInRole('SuperUser', 'HR'), 
+            require('./routes/casesHR.js'));
 app.use('/admin', 
             checkIsInRole('Manager', 'SuperUser', 'HR'),
             require('./routes/admin'));

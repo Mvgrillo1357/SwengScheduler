@@ -13,7 +13,8 @@ const CaseSchema  = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['in-progress', 'resolved'],
+        default: 'un-assigned',
+        enum: ['in-progress', 'resolved', 'denied', 'un-assigned'],
     },
     notes: [{
         comment: { type: String },
@@ -22,6 +23,11 @@ const CaseSchema  = new mongoose.Schema({
             ref: 'User',
         },
     }],
+    org: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Organization',
+        required: [true, "A case must belong to an Org"],
+    },
 });
 
 const Case = mongoose.model('Case', CaseSchema);
