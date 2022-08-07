@@ -17,7 +17,7 @@ class Mailer {
             from,
             to,
             subject,
-            html: msg,
+            html: `<div style="white-space: pre-line">${msg}</div>`,
             text: msg,
         });
         

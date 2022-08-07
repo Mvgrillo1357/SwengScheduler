@@ -12,7 +12,7 @@ router.get("/approve/:id", async (req, res) => {
     org.save();
     res.redirect("/dashboard");
   } catch (e) {
-    console.log(e);
+    req.flash('error', e);
     res.redirect("/dashboard");
   }
 });

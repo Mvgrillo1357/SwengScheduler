@@ -103,5 +103,24 @@ app.use('/admin',
             checkIsInRole('Manager', 'SuperUser', 'HR'),
             require('./routes/admin'));
 
+ /**
+  * Catch Any Errors that we do not explicity catch and show an error message to the user and send an email to the admins
+  */
+app.use((err, req, res, next) => {
+   
+    const Mailer = require('./config/mailer');
+    const mail = new Mailer();
+    mail.sendMail({
+        to: 'SwengAdmin@SwengScheduler.com',
+        from: 'no-reply@SwengScheduler.com',
+        subject: "An error occurred with the application",
+        msg: `
+        This is a notification to let you know that there was an error with SwengScheduler: 
+            ${err}
+        `,
+    });
+   
+   res.render('error');
+});
 
 app.listen(3000); 

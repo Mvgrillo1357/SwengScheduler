@@ -44,9 +44,15 @@ margin-bottom: 10px;
     <td>
         <% if(user.role == "SuperUser" || user.role == "HR") { %> 
             <a href="/EmployeeList/<%= item._id %>">Edit</a> |
-            <form action="/employeelist/remove/<%= item._id %>" method="POST">
-                <button type="submit" class="btn btn-primary btn-block"><span>Mark Terminate</span></button>
-            </form>
+            <% if (item.status == 'active') { %>
+                <form action="/employeelist/remove/<%= item._id %>" method="POST">
+                    <button type="submit" class="btn btn-primary btn-block"><span>Mark Terminate</span></button>
+                </form>
+            <% } else { %>
+                <form action="/employeelist/active/<%= item._id %>" method="POST">
+                    <button type="submit" class="btn btn-primary btn-block"><span>Mark Active</span></button>
+                </form>
+            <% } %>
         <% } %>
     </td>
    

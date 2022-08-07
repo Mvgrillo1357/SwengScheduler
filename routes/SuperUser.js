@@ -4,20 +4,6 @@ const SuperUser = require("../models/SuperUser");
 const Organization = require("../models/Organization");
 const passport = require('passport');
 
-/** 
- * 
- * Login Route // Should be moved to a central spot for just users
- * 
- * */
-
-router.post('/login',(req,res,next)=>{
-    passport.authenticate('local',{
-        successRedirect : '/dashboard',
-        failureRedirect: '/users/login',
-        failureFlash : true
-    })(req,res,next)
-});
-
 /**
  * Organization Request Route
  * 
@@ -48,10 +34,12 @@ router.post('/create', async (req,res) => {
 
     const { firstName, lastName, login, personalEmail, password, passwordConfirmation, proposedCompany } = req.body;
     console.log(password, passwordConfirmation);
+    
     if(password == '' || password != passwordConfirmation) { 
         renderError("Passwords do not match or are empty");
         return;
     }
+
     let exists = await Promise.all( [ SuperUser.exists({login}), SuperUser.exists({personalEmail}) ]);
 
     if(exists.some(item => !!item)) {
@@ -96,10 +84,6 @@ router.post('/create', async (req,res) => {
     req.flash('success_msg', "Your organization has been requested. You will see an email when it has been approved or denied");
     res.redirect('/users/login');
 });
-//logout
-router.get('/logout',(req,res)=>{
-req.logout();
-req.flash('success_msg','Now logged out');
-res.redirect('/users/login'); 
-})
+
+
 module.exports  = router;

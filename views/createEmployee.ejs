@@ -2,7 +2,6 @@
 justify-content: space-between;
 "
 >Create</h1>
-<%= e %>
 <form action="./create" method="POST">
 <fieldSet>
   <legend>Information:</legend>
@@ -13,7 +12,7 @@ justify-content: space-between;
       type="name"
       name="firstName"
       placeholder="Enter First Name"
-      value="<%= '' %>"
+      value="<%= typeof data != 'undefined' ? data.firstName : '' %>"
     />
   
 </div>
@@ -23,7 +22,7 @@ justify-content: space-between;
       type="name"
       name="lastName"
       placeholder="Enter Last Name"
-      value="<%= '' %>"
+      value="<%= typeof data != 'undefined' ? data.lastName : '' %>"
     />
   
 </div>
@@ -33,7 +32,7 @@ justify-content: space-between;
       type="text"
       name="login"
       placeholder="Enter Login"
-      value="<%= '' %>"
+      value="<%= typeof data != 'undefined' ? data.login : '' %>"
     />
 </div>
 
@@ -43,7 +42,7 @@ justify-content: space-between;
     type="email"
     name="personalEmail"
     placeholder="Enter Email"
-    value="<%= '' %>"
+    value="<%= typeof data != 'undefined' ? data.personalEmail : '' %>"
   />
 </div>
 
@@ -54,6 +53,7 @@ justify-content: space-between;
   <select name="role">
     <% roles.forEach((role) => { %>
         <option value="<%= role %>"
+          <% if (typeof data != 'undefined' && data.role == role) { %> selected <% } %>
         ><%= role %></option>
     <% }) %>
   </select>
@@ -65,7 +65,7 @@ justify-content: space-between;
     <option></option>
     <% managers.forEach((manager) => { %>
         <option value="<%= manager._id %>"
-            
+        <% if (typeof data != 'undefined' && data.manager != null && data.manager.toString() == manager._id.toString()) { %> selected <% } %> 
         ><%= manager.name %></option>
     <% }) %>
   </select>

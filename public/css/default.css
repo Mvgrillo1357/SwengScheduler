@@ -49,6 +49,7 @@ p.callout {
     padding: 5px;
     margin: 2px;
     border-radius: 5px;
+    white-space: pre-line;
 }
 .messages p.error {
     color: #D8000C;

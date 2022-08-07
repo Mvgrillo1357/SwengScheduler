@@ -21,6 +21,9 @@ router.post('/login',(req,res,next)=>{
 
 
 router.get('/reset/:hash', async (req,res) => {
+    if(req.user) {
+        return res.redirect('/dashboard');
+    }
     let reset = await ResetLink.findOne({hash: req.params.hash});
     let error;
     if(reset) {
@@ -42,6 +45,9 @@ router.get('/reset/:hash', async (req,res) => {
 });
 
 router.post('/reset/:hash', async (req,res) => {
+    if(req.user) {
+        return res.redirect('/dashboard');
+    }
     let reset = await ResetLink.findOne({hash: req.params.hash});
     let error;
     if(reset) {
