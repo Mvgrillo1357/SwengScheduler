@@ -12,6 +12,7 @@ const MongoStore = require('connect-mongo');
 const ENV = dotenv.config().parsed;
 const username = ENV.MONGO_USERNAME;
 const password = ENV.MONGO_PASSWORD;
+const {ensureAuthenticated} = require('./config/auth') 
 //passport config:
 require('./config/passport')(passport)
 //mongoose
@@ -86,7 +87,7 @@ app.use('/organization',require('./routes/SuperUser'));
 app.use('/organization',
             checkIsInRole('Admin'),
             require('./routes/organization'));
-app.use('/Manager',require('./routes/Manager'));
+// app.use('/Manager',require('./routes/Manager'));
 app.use('/EmployeeList',
             checkIsInRole('Manager', 'SuperUser', 'HR'),
             require('./routes/EmployeeList'));
@@ -102,7 +103,7 @@ app.use('/casesHR',
 app.use('/admin', 
             checkIsInRole('Manager', 'SuperUser', 'HR'),
             require('./routes/admin'));
-
+app.use('/', ensureAuthenticated,require('./routes/dashboard'));
  /**
   * Catch Any Errors that we do not explicity catch and show an error message to the user and send an email to the admins
   */

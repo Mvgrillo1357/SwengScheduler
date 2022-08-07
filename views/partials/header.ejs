@@ -1,4 +1,4 @@
-<img src="/images/sweng.png"  class="logo">
+<a href="/<%= user != null ? 'dashboard' : '' %>"><img src="/images/sweng.png"  class="logo"></a>
 <nav class="header-nav">
 <ul>
     <% if(user == null || user.name == null) { %>
