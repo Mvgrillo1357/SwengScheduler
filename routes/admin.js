@@ -1,10 +1,8 @@
-
-const express = require('express');
-const router = express.Router();
+const express = require("express");
+const passport = require("passport");
+const Admin = require("../controllers/AdminController");
 
 //login handle
-router.get('/',(req,res)=>{
-    res.render('Admin');
-})
+Admin.get("/", Admin.index);
 
-module.exports  = router;
+module.exports = Admin.getRouter();
