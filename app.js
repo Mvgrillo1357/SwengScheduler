@@ -116,8 +116,8 @@ app.use((err, req, res, next) => {
         from: 'no-reply@SwengScheduler.com',
         subject: "An error occurred with the application",
         msg: `
-        This is a notification to let you know that there was an error with SwengScheduler: 
-            ${err}
+        This is a notification to let you know that there was an error with SwengScheduler: ${err.message}
+            <pre>${err.stack}</pre>
         `,
     });
    

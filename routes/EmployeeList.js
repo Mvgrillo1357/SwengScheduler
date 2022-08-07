@@ -4,7 +4,7 @@ EmployeeListController.get('/', EmployeeListController.index);
 EmployeeListController.get('/create', EmployeeListController.createForm);
 EmployeeListController.post('/create', EmployeeListController.createAction);
 
-EmployeeListController.get('/:id', EmployeeListController.showAction);
+EmployeeListController.get('/:id', EmployeeListController.show);
 EmployeeListController.get('/:id/resetLink', EmployeeListController.resetPassword)
 
 EmployeeListController.post('/:id', EmployeeListController.updateAction);
