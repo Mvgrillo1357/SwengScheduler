@@ -90,15 +90,15 @@ UserSchema.methods.setRole = async function(role) {
     );
 }
 
-UserSchema.path('personalEmail').validate(async function(value) {
-    let count = await this.model('User').count({ personalEmail: value });
-    return count == 0;
-}, 'Email already exists');
+// UserSchema.path('personalEmail').validate(async function(value) {
+//     let count = await this.model('User').count({ personalEmail: value });
+//     return count == 0;
+// }, 'Email already exists');
 
-UserSchema.path('login').validate(async function(value) {
-    let count = await this.model('User').count({ login: value });
-    return count == 0;
-}, 'Login already exists');
+// UserSchema.path('login').validate(async function(value) {
+//     let count = await this.model('User').count({ login: value });
+//     return count == 0;
+// }, 'Login already exists');
 
 
 UserSchema.methods.setPassword = async function(newPassword) {
