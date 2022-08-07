@@ -1,26 +1,15 @@
+const casesHRController = require('../controllers/casesHRController');
+
+
 const express = require('express');
 const router = express.Router();
 const Case = require("../models/Case");
 
-router.get('/', async (req,res) =>{
-    // find all cases that belong to a User model
-    let CasesList= await Case.find({org: req.user.organization}).populate('belongsTo');
-    res.render('CasesListRender', {
-        CasesList,
-        route: 'casesHR'
-    });
+// EmployeeListController.get('/', EmployeeListController.index);
+casesHRController.get('/', casesHRController.index);
 
-});
+casesHRController.get('/comments/:id', casesHRController.getCommentsListRender);
 
-router.get('/comments/:id', async (req,res) =>{
-    // find all comments that belong to a Case model
-    let CommentsList= await Case.findOne({_id: req.params.id}).populate('notes.writer');
-    res.render('CommentsListRender', {
-        CommentsList,
-        route: 'casesHR'
-    });
-
-});
 
 // notes: [{
 //     comment: { type: String },
@@ -31,25 +20,7 @@ router.get('/comments/:id', async (req,res) =>{
 //     timeStamp: {type: Date},
 // }],
 
-router.post('/comments/:_id', async (req,res) =>{
-    
-    let {comment} = req.body;
-
-    let CommentsList= await Case.findOne({_id: req.params._id});
-    
-    CommentsList.notes.push({
-        comment,
-        writer: req.user,
-        timeStamp: Date.now(),
-    })
-
-    await CommentsList.save();
-    
-    // req.flash('success', `Your case, ${req.user.organization.status} has been opened. Please wait until it is resolved.`);
-    // find all cases that belong to a User model
-    res.redirect(`/casesHR/comments/${CommentsList._id}`);
-
-});
+casesHRController.post('/comments/:_id', casesHRController.postCommentsListRender);
 
 // router.get('/approve/:id', async (req,res) =>{
 //     try {
@@ -79,22 +50,7 @@ router.post('/comments/:_id', async (req,res) =>{
 //     default: 'un-assigned',
 //     enum: ['in-progress', 'resolved', 'denied', 'un-assigned'],
 // },
-router.post('/status/:_id', async (req,res) =>{
-    let {status} = req.body;
+casesHRController.post('/status/:_id', casesHRController.postCommentsUpdateStatus);
 
-    let CommentsList= await Case.findOne({_id: req.params._id});
-    CommentsList.status= status;
-
-    CommentsList.notes.push({
-        comment: `${req.user.name} updated status to ${status}`,
-        writer: req.user,
-        timeStamp: Date.now(),
-    })
-
-    await CommentsList.save();
-    
-    // req.flash('success', `Your case, ${req.user.organization.status} has been opened. Please wait until it is resolved.`);
-    // find all cases that belong to a User model
-    res.redirect(`/casesHR/comments/${CommentsList._id}`);
-});
-module.exports  = router;
+// module.exports  = EmployeeListController.getRouter();
+module.exports  = casesHRController.getRouter();
