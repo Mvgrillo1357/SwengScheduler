@@ -172,8 +172,24 @@ class EmployeeList extends Controller {
         
         // Update the values for the user
         let {firstName, lastName, personalEmail, role, manager} = req.body;
-        if(manager == '') manager = null;
-        // If the user doesn't exist then create them
+        // This is for MongoDB, you can't pass a blank string in for manager, you need to pass in null
+        // if you want a blank manager otherwise it throws an error about CastType
+        if(manager == '') { 
+            manager = null; 
+        }
+        
+        let updateUser = await Users.findOne({_id: req.params.id});
+
+        // If the user cannot change role, give an error message and return
+        let [canChange, msg] = await updateUser.canChangeRole(role, req.user);
+
+        if(!canChange) {
+            req.flash('error', msg);
+            return res.redirect(`/EmployeeList/${updateUser._id}`);
+        }
+
+        
+        // Update the user
         await Users.updateOne({
             _id: req.params.id,
         },{
@@ -183,7 +199,8 @@ class EmployeeList extends Controller {
             manager
         });
 
-        let updateUser = await Users.findOne({_id: req.params.id});
+        
+        
         await updateUser.setRole(role);
         // Validate the changes
 
@@ -197,7 +214,7 @@ class EmployeeList extends Controller {
         // this is to terminate an employee
         // find the user
         let user = await Users.findOne({_id: req.params.id});
-        // Check to see if the user has any people
+        // Check to see if the user is managing any people
         let managedEmployees = await Users.find({manager: user});
         if(managedEmployees.length > 0) {
             let names = managedEmployees.map((item) => item.name).join('\n\t');
@@ -208,6 +225,7 @@ class EmployeeList extends Controller {
         //set the status to terminated
         user.status= "terminated"
         await user.save();
+        req.flash('success', "Employee has been marked terminated");
         // reurn to employee list
         res.redirect('/EmployeeList');
 
@@ -220,6 +238,7 @@ class EmployeeList extends Controller {
         //set the status to terminated
         user.status= "active"
         await user.save();
+        req.flash('success', "Employee has been marked active");
         // reurn to employee list
         res.redirect('/EmployeeList');
     }

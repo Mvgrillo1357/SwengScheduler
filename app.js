@@ -79,7 +79,21 @@ app.use((req,res,next) => {
     }
     next();
 });
-    
+
+// 2FA Middleware, basically it keeps the user from accessing any prilvedge pages without entering in the 2fa code
+// if they have a secret
+app.use((req, res, next) => {
+    if(req.path != '/confirm-2fa' && req.session.passport) {
+        if(req.session.passport.user) {
+            if(req.session.passport.user.require2fa) {
+                req.flash('warning', 'Enter in 2fa information');
+                return res.redirect('/confirm-2fa');
+            }
+        }
+    }
+    next();
+});
+
 //Routes
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));

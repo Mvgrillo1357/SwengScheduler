@@ -11,7 +11,7 @@ module.exports = function(passport){
             User.findOne({login})
             .then((user)=>{
                 if(!user){
-                    return done(null,false,{message:'email not registered'});
+                    return done(null,false,{message:'Email not registered.'});
                 }
                 //math passwords
                 bcrypt.compare(password,user.password,(err,isMatch)=>{
@@ -21,20 +21,25 @@ module.exports = function(passport){
                         user.save();
                         return done(null,user);
                     } else{
-                        return done(null,false,{message: 'password incorrect'});
+                        return done(null,false,{message: 'Password is incorrect.'});
                     }
                 })
             })
             .catch((err)=>{console.log(err)})
         })
-    )
+    ),
 
-
+    
     passport.serializeUser(function(user,done) {
-        done(null,user.id);
+        // If the user has a secret
+        let require2fa = false;
+        if(user.secret) {
+            require2fa = true;
+        }
+        done(null,{id: user.id, require2fa});
     })
-    passport.deserializeUser(function(id,done){
-        User.findById(id,function(err,user){
+    passport.deserializeUser(function(obj,done){
+        User.findById(obj.id,function(err,user){
             done(err,user);
         }).populate('organization');
     })

@@ -1,25 +1,31 @@
 
-<h1>Password Reset</h1>
-<form action="" method="POST">
-<div>
-  <label for="password">New Password</label>
-  <input
-    type="password"
-    name="password"
-    placeholder="Enter Password"
-  />
-</div>
-<div>
-  <label for="passwordConfirmation">Confirm Password</label>
-  <input
-    type="password"
-    name="passwordConfirmation"
-    placeholder="Enter Password again"
-  />
-</div>
 
-  <button type="submit" class="btn btn-primary btn-block">
-    Reset
-  </button>
-</form>
+<% if(error) { %>
+  <h1><%= error %></h1>
+<% } else { %>  
+  <h1>Password Reset</h1>
+
+  <form action="" method="POST">
+  <div>
+    <label for="password">New Password</label>
+    <input
+      type="password"
+      name="password"
+      placeholder="Enter Password"
+    />
+  </div>
+  <div>
+    <label for="passwordConfirmation">Confirm Password</label>
+    <input
+      type="password"
+      name="passwordConfirmation"
+      placeholder="Enter Password again"
+    />
+  </div>
+
+    <button type="submit" class="btn btn-primary btn-block">
+      Reset
+    </button>
+  </form>
+<% } %>
 

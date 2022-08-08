@@ -7,7 +7,8 @@ justify-content: space-between;
     <ul>
         <li>
             <a class="button" href="/casesUser">Cases</a>
-            <a class="button" href="/RTO">Request Time Off</a>
+            <!-- The alert in the onClick action requires the DHX scheduler's javascript code to be present on the page -->
+            <button class="button disable" disable onClick="scheduler.alert('Feature Coming Soon'); return;">Request Time Off</button>
         </li>
     </ul>
     </nav>

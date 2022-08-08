@@ -12,18 +12,26 @@ nav.header-nav ul {
 }
 
 .button {
+    font-family: Arial;
     margin-top: -5px;
     font-size: 16px;
     letter-spacing: 1;
     font-weight: bold;
     padding: 10px;
-    min-width: 500px;
     color: white;
     background-color: #1462ec;
     border: 2px solid blue;
     margin: 15px;
     border-radius: 5px;
     text-decoration: none;
+}
+.button.disable {
+    background-color: #716f6f;
+    border-color: grey;
+}
+.button.disable:hover {
+    background-color: #716f6f;
+    border-color: grey;
 }
 .button:hover {
     background-color: #0940a3;
@@ -177,4 +185,15 @@ body {
     width: 100%;
     margin-top:5px;
     border-top: 1px solid grey;
+}
+.currentUser {
+    padding: 10px;
+    position: absolute;
+    margin: 5px;
+    text-shadow: 1 1 black;
+    font-weight: bold;
+    background-color: #d1d5d8;
+    color: black;
+    box-shadow: 1px 1px 2px black;
+    border-radius: 5px;
 }

@@ -6,7 +6,15 @@ justify-content: space-between;
     <ul>
         <li>
             <a class="button" href="/EmployeeList/<%= updateUser._id %>/resetLink">Send Password Reset link</a>
-            <a class="button" href="/EmployeeList/<%= updateUser._id %>/terminate">Mark Terminated</a>
+            <% if (updateUser.status == 'active') { %>
+              <form style="display:inline-block;" action="/employeelist/remove/<%= updateUser._id %>" method="POST">
+                  <button style="display:inline-block;" type="submit" class="button"><span>Mark Terminate</span></button>
+              </form>
+            <% } else { %>
+                <form style="display:inline-block;" action="/employeelist/active/<%= updateUser._id %>" method="POST">
+                    <button style="display:inline-block;" type="submit" class="button"><span>Mark Active</span></button>
+                </form>
+            <% } %>
         </li>
         <li>
         </li>

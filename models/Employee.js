@@ -10,6 +10,4 @@ const Employee = User.discriminator('Employee',
     )
 );
 
-console.log(Employee);
-
 module.exports = Employee;
