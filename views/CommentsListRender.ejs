@@ -10,10 +10,10 @@
     </ul>
     </nav>
 </h1>
-
+<% if(['HR', 'SuperUser'].includes(user.role)) { %>
 <div class="container">
     <div class="content">
-      <form action="/<%= route %>/status/<%=CommentsList._id %>" method="POST">
+      <form action="/casesHR/status/<%=CommentsList._id %>" method="POST">
         <div class="user-details">
             <div class="input-box">
                 <span class="details">Status</span>
@@ -32,7 +32,7 @@
       </form>
     </div>
   </div>
-
+<% } %>
 <div class="container">
     <div class="content">
       <form action="" method="POST">

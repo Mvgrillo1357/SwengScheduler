@@ -28,7 +28,7 @@ class casesUserController extends Controller{
             belongsTo : req.user,
             org : req.user.organization,
         })
-        req.flash('success', `Your case, ${req.user.organization.status} has been opened. Please wait until it is resolved.`);
+        req.flash('success', `Your case, ${description} has been opened. Please wait until it is resolved.`);
         // find all cases that belong to a User model
         res.redirect("/casesUser");
     

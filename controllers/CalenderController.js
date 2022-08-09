@@ -27,6 +27,18 @@ var COLORS = [
  */
 class CalenderController extends Controller {
 
+  async data (req, res) {
+    let calendars = await Calendar.find({belongsTo: req.user._id});
+    calendars = calendars.map((item) => {
+        return {
+           text: item.name,
+           start_date: item.start_date,
+           end_date: item.end_date,
+        }
+      })
+    return res.json(calendars);
+  }
+
   async manageCalendar(req, res) {
     let users = await User.find({
       organization: req.user.organization,
