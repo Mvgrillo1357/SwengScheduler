@@ -33,7 +33,7 @@ class indexController extends Controller {
         let code = req.body.code;
 
         var secret = GoogleAuthenticator.decodeSecret(req.user.secret);
-        // https://www.npmjs.com/package/notp#hotpverifytoken-key-opt
+        // https://github.com/guyht/notp#hotpverifytoken-key-opt
         // Documentaiton on how to use totp to verify the code
         let isValid = totp.verify(code, secret, {
             window: 6,
@@ -46,7 +46,12 @@ class indexController extends Controller {
             return res.redirect('/users/logout');
         }
         // then set the session to allow them through
-        else if(isValid.delta) {
+        // Check property to see if delta exists
+        // WOrkaround for when delta is zero and it evalutes to false
+        else if('delta' in isValid) {
+            return res.redirect('/dashboard');            
+        }
+        else if(isValid.delta == 0 || isValid.delta) {
             return res.redirect('/dashboard');            
         }
         
