@@ -1,0 +1,203 @@
+
+.container{
+    max-width: 700px;
+    width: 100%;
+    padding: 25px 30px;
+    margin: auto;
+    border-radius: 5px;
+  }
+  .container .title{
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+  }
+
+  .content form .user-details{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+  }
+  form .user-details .input-box{
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+  }
+  form .input-box span.details{
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  .user-details .input-box input, .user-details .input-box select, .user-details .input-box textarea{
+    height: 45px;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  }
+  .user-details .input-box input:focus,
+  .user-details .input-box input:valid, .user-details .input-box select:valid, .user-details .input-box textarea:valid{
+    border-color: #0320ff;
+  }
+  .user-details .input-box textarea{
+    width:100%;
+    height: 90px;
+  }
+  .full-size{
+    width:100% !important;
+  }
+   form .gender-details .gender-title{
+    font-size: 20px;
+    font-weight: 500;
+   }
+   form .category{
+     display: flex;
+     width: 80%;
+     margin: 14px 0 ;
+     justify-content: space-between;
+   }
+   form .category label{
+     display: flex;
+     align-items: center;
+     cursor: pointer;
+   }
+   form .category label .dot{
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background: #d9d9d9;
+    border: 5px solid transparent;
+    transition: all 0.3s ease;
+  }
+   #dot-1:checked ~ .category label .one,
+   #dot-2:checked ~ .category label .two,
+   #dot-3:checked ~ .category label .three{
+     background: #9b59b6;
+     border-color: #d9d9d9;
+   }
+   form input[type="radio"]{
+     display: none;
+   }
+   form .button{
+     height: 45px;
+     margin: 35px 0
+   }
+   .button-form {
+    
+    width: 100%
+   
+   }
+   form .button input:hover{
+    /* transform: scale(0.99); */
+    background-color: #FBAB7E;
+  background-image: linear-gradient(250deg, #FBAB7E 0%, #F7CE68 100%);
+   
+    }
+   @media(max-width: 584px){
+   .container{
+    max-width: 100%;
+  }
+  form .user-details .input-box{
+      margin-bottom: 15px;
+      width: 100%;
+    }
+    form .category{
+      width: 100%;
+    }
+    .content form .user-details{
+      max-height: 300px;
+      overflow-y: scroll;
+    }
+    .user-details::-webkit-scrollbar{
+      width: 5px;
+    }
+    }
+    @media(max-width: 459px){
+    .container .content .category{
+      flex-direction: column;
+    }
+  }
+  form fieldset{
+    padding: 15;
+  }
+
+  .input100:focus {
+    border-color: #017cff !important;
+    border-width: 2px !important;
+  }
+
+  .container-login100-form-btn {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .login101-form-btn {
+    font-family: Ubuntu-Bold;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+  
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    min-width: 160px;
+    height: 42px;
+    border-radius: 21px;
+  
+    background: #3055fa;
+    background: -webkit-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+    background: -o-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+    background: -moz-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+    background: linear-gradient(left, #4745b2, #1838d4, #428cfa);
+    position: relative;
+    z-index: 1;
+  
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+  }
+  
+  .login101-form-btn::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border-radius: 21px;
+    background-color: #2a96fc91;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+  }
+  
+  .login101-form-btn:hover {
+    background-color: transparent;
+  }
+  
+  .login101-form-btn:hover:before {
+    opacity: 1;
+  }
+  

@@ -1,8 +1,6 @@
 
-<h1 style="
-display: flex;
-justify-content: space-between;
-">Case View 
+<h1 style="display: flex; justify-content: space-between; ">
+    Case View 
     <nav style="display: inline-block; margin-top: -8px;">
     <ul>
         <li>
@@ -13,49 +11,51 @@ justify-content: space-between;
     </nav>
 </h1>
 
-<!-- status: {
-    type: String,
-    default: 'un-assigned',
-    enum: ['in-progress', 'resolved', 'denied', 'un-assigned'],
-}, -->
-
-<form action="/<%= route %>/status/<%=CommentsList._id %>" method="POST">
-    <select name="status">
-        <option <%= CommentsList.status == 'in-progress' ? 'selected' : '' %> value="in-progress">In Progress</option>
-        <option <%= CommentsList.status == 'resolved' ? 'selected' : '' %> value="resolved">Resolved</option>
-        <option <%= CommentsList.status == 'denied' ? 'selected' : '' %> value="denied">Denied</option>
-    </select>
-    
-    <button type="submit" class="btn btn-primary btn-block">
-        Update
-    </button>
-</form>
-
-
-<!-- notes: [{
-    comment: { type: String },
-    writer: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',
-    },
-    timeStamp: {type: Date},
-}], -->
-<form action="" method="POST">
-    <fieldSet>
-      <legend>Add Comment:</legend>
-    
-    <div>
-        <label for="comment">Description</label>
-        <textarea
-          name="comment"
-          placeholder=""        
-        ></textarea>
+<div class="container">
+    <div class="content">
+      <form action="/<%= route %>/status/<%=CommentsList._id %>" method="POST">
+        <div class="user-details">
+            <div class="input-box">
+                <span class="details">Status</span>
+                <select name="status">
+                    <option <%= CommentsList.status == 'in-progress' ? 'selected' : '' %> value="in-progress">In Progress</option>
+                    <option <%= CommentsList.status == 'resolved' ? 'selected' : '' %> value="resolved">Resolved</option>
+                    <option <%= CommentsList.status == 'denied' ? 'selected' : '' %> value="denied">Denied</option>
+                </select>
+            </div>
+        </div>
+        <div class="container-login101-form-btn m-t-32 " >
+        <button class="login101-form-btn button-form">
+            Update
+        </button>
+      </div>
+      </form>
     </div>
-</fieldSet>
-    <button type="submit" class="btn btn-primary btn-block">
-        Post
-    </button>
-    </form>
+  </div>
+
+<div class="container">
+    <div class="content">
+      <form action="" method="POST">
+        <fieldSet>
+            <legend>Add Comment:</legend>
+            <div class="user-details">
+                <div class="input-box full-size">
+                    <span class="details">Description</span>
+                    <textarea class="input100"
+                    name="comment"
+                    placeholder=""        
+                    ></textarea>
+                </div>
+            </div>
+        </fieldSet>
+        <div class="container-login101-form-btn m-t-32 " >
+            <button class="login101-form-btn button-form">
+                Post
+            </button>
+        </div>
+      </form>
+    </div>
+  </div>
 <h3> Comments </h3>
 <div class="comments">
 <!-- return the most recent comments first by default the array sorts ascending so reversing returns the most recent commetns first -->

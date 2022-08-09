@@ -1,83 +1,62 @@
-<h1>Request new Organization</h1>
-<form action="/organization/create" method="POST">
-<fieldSet>
-  <legend>Your Information:</legend>
 
-<div>
-    <label for="firstName">First name</label>
-    <input
-      type="name"
-      name="firstName"
-      placeholder="Enter First Name"
-      value="<%= typeof firstName != 'undefined' ? firstName : '' %>"
-    />
-  
-</div>
-<div>
-    <label for="lastName">Last name</label>
-    <input
-      type="name"
-      name="lastName"
-      placeholder="Enter Last Name"
-      value="<%= typeof lastName != 'undefined' ? lastName : '' %>"
-    />
-  
-</div>
-<div>
-    <label for="login">Login / Username</label>
-    <input
-      type="text"
-      name="login"
-      placeholder="Enter Login"
-      value="<%= typeof login != 'undefined' ? login : '' %>"
-    />
-</div>
+ <div class="container">
+    <div class="title">Request new Organization</div>
+    <div class="content">
+      <form action="/organization/create" method="POST">
+        <fieldSet>
+            <legend>Your Information:</legend>
+            <div class="user-details">
+            <div class="input-box">
+                <span class="details">First Name</span>
+                <input class="input100"  type="name"      name="firstName"      placeholder="Enter First Name" value="<%= typeof firstName != 'undefined' ? firstName : '' %>">
+            </div>
 
-<div>
-  <label for="personalEmail">Email</label>
-  <input
-    type="email"
-    name="personalEmail"
-    placeholder="Enter Email"
-    value="<%= typeof personalEmail != 'undefined' ? personalEmail : '' %>"
-  />
-</div>
+            <div class="input-box">
+                <span class="details">Last Name</span>
+                <input class="input100"  type="name"      name="lastName"      placeholder="Enter Last Name"      value="<%= typeof lastName != 'undefined' ? lastName : '' %>">
+            </div>
 
-<div>
-  <label for="password">Password</label>
-  <input
-    type="password"
-    name="password"
-    placeholder="Enter Password"
-  />
-</div>
-<div>
-  <label for="passwordConfirmation">Confirm Password</label>
-  <input
-    type="password"
-    name="passwordConfirmation"
-    placeholder="Enter Password again"
-  />
-</div>
+            <div class="input-box">
+                <span class="details">Username - Login</span>
+                <input class="input100"  type="name"      name="lastName"      placeholder="Enter Last Name"      value="<%= typeof lastName != 'undefined' ? lastName : '' %>">
+            </div>
 
-</fieldSet>
-<fieldSet>
-  <legend>Company Information:</legend>
-<div>
-  
-    <label for="proposedCompany">Name</label>
-    <input
-      type="text"
-      name="proposedCompany"
-      placeholder="Enter Proposed Company"
-      value="<%= typeof proposedCompany != 'undefined' ? proposedCompany : '' %>"
-    />
-  
-</div>
-</fieldSet>
+            <div class="input-box">
+                <span class="details">Email</span>
+                <input class="input100"  type="email"    name="personalEmail"    placeholder="Enter Email"    value="<%= typeof personalEmail != 'undefined' ? personalEmail : '' %>">
+            </div>
+            
+            <div class="input-box">
+                <span class="details">Password</span>
+                <input class="input100" type="password" name="password" placeholder="Enter Password">
+            </div>
 
-  <button type="submit" class="btn btn-primary btn-block">
-    Request
-  </button>
-</form>
-<p >Have An Account? <a href="/users/login">Login</a></p>
+            <div class="input-box">
+                <span class="details">Confirm Password</span>
+                <input class="input100" type="password"    name="passwordConfirmation"    placeholder="Enter Password again">
+            </div>
+            </div>
+        </fieldSet>
+        
+        <br/>
+
+            <fieldSet>
+                <legend>Company Information:</legend>
+				<div class="user-details">
+					<div class="input-box">
+						<span class="details">Proposed Company</span>
+						<input class="input100"  type="text"      name="proposedCompany"      placeholder="Enter Proposed Company"      value="<%= typeof proposedCompany != 'undefined' ? proposedCompany : '' %>">
+					</div>
+				</div>
+			</fieldSet>
+            
+			  <div class="container-login101-form-btn m-t-32 " >
+				<button class="login101-form-btn button-form">
+					Requests
+				</button>
+			</div>
+      </form>
+    </div>
+  </div>
+
+ 

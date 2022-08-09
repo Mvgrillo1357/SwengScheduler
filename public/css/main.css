@@ -168,7 +168,7 @@ iframe {
 }
 
 .wrap-login100 {
-  width: 390px;
+  /*width: 390px;*/
   border-radius: 10px;
   overflow: hidden;
 
@@ -225,9 +225,9 @@ iframe {
 }
 
 .input100 {
-  font-family: Ubuntu-Regular;
+  font-family: Arial;
+  color: #000000;
   font-size: 20px;
-  color: #555555;
   line-height: 1.2;
 
   display: block;
@@ -266,17 +266,17 @@ iframe {
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 
-  background: #d41872;
-  background: -webkit-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -o-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -moz-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: linear-gradient(left, #a445b2, #d41872, #fa4299);
+  background: #3055fa;
+  background: -webkit-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+  background: -o-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+  background: -moz-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+  background: linear-gradient(left, #4745b2, #1838d4, #428cfa);
 }
 
 .focus-input100::after {
   font-family: Linearicons-Free;
   font-size: 18px;
-  color: #999999;
+  color: #000000;
 
   content: attr(data-placeholder);
   display: block;
@@ -298,7 +298,7 @@ iframe {
 
 .input100:focus + .focus-input100::after {
   left: 23px;
-  color: #d41872;
+  color: #3055fa;
 }
 
 .input100:focus + .focus-input100::before {
@@ -307,7 +307,7 @@ iframe {
 
 .has-val.input100 + .focus-input100::after {
   left: 23px;
-  color: #d41872;
+  color: #3055fa;
 }
 
 .has-val.input100 + .focus-input100::before {
@@ -351,11 +351,11 @@ iframe {
   height: 42px;
   border-radius: 21px;
 
-  background: #d41872;
-  background: -webkit-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -o-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -moz-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: linear-gradient(left, #a445b2, #d41872, #fa4299);
+  background: #3055fa;
+  background: -webkit-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+  background: -o-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+  background: -moz-linear-gradient(left, #4745b2, #1838d4, #428cfa);
+  background: linear-gradient(left, #4745b2, #1838d4, #428cfa);
   position: relative;
   z-index: 1;
 
@@ -373,7 +373,7 @@ iframe {
   width: 100%;
   height: 100%;
   border-radius: 21px;
-  background-color: #555555;
+  background-color: #2a96fc91;
   top: 0;
   left: 0;
   opacity: 0;
