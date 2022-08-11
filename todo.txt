@@ -1,6 +1,0 @@
-use this endpoint to use this endpoint to test manager class
-
-localhost:3000/manager/create
-    /superuser/create created button 
-
-need to find a way of using a 2fa secret
