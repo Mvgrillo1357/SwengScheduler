@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+/**
+ * Organization database schema
+ */
 const OrganizationSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -23,11 +26,16 @@ const OrganizationSchema = new mongoose.Schema({
   },
 });
 
+/**
+ * Approve the organization
+ * 
+ * @param {User} user The user who is approving
+ */
 OrganizationSchema.methods.approve = function (user) {
+  // mark it approved and who approved it
   this.status = "Approved";
   this.approvedBy = user._id;
-  // @TODO Send a notification to the requestor letting them know their organization was approved.
-
+  // Send a notification to the requestor letting them know their organization was approved.
   const mailer = require("../config/mailer");
   const mail = new mailer();
   mail.sendMail({
@@ -40,8 +48,15 @@ a new organization has been approve with name: ${this.name} in SwengScheduler.`,
   });
 };
 
+/**
+ * Deny the organization
+ * 
+ * @param {User} user Who is denying
+ */
 OrganizationSchema.methods.deny = function (user) {
+  // Mark it denied
   this.status = "Denied";
+  // Send a notfication letting the user know it was denied
   const mailer = require("../config/mailer");
   const mail = new mailer();
   mail.sendMail({

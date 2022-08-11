@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+/**
+ * Case Schema
+ */
 const CaseSchema  = new mongoose.Schema({
     description: {
         type: String,
@@ -16,6 +19,9 @@ const CaseSchema  = new mongoose.Schema({
         default: 'un-assigned',
         enum: ['in-progress', 'resolved', 'denied', 'un-assigned'],
     },
+    /**
+     * Comment subschema
+     */
     notes: [{
         comment: { type: String },
         writer: {

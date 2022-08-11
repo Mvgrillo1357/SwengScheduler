@@ -1,21 +1,9 @@
 const SuperUserController = require('../controllers/SuperUserController.js');
 
-/**
- * Organization Request Route
- * 
- * Allows users to request an organization
- * 
- * Prompt the user for their information and the proposed organization's name
- * 
- * URL : /organization/create
- * 
- */
-
-// create handle
+// /organization/create - Request form for a new organization
 SuperUserController.get('/create', SuperUserController.create);
 
-// Save the SuperUser and Organization to the Database
+// /organization/create (POST) - Creates the organization and the new superUser
 SuperUserController.post('/create', SuperUserController.creatorHandle );
-
 
 module.exports  = SuperUserController.getRouter();

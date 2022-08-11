@@ -1,56 +1,15 @@
 const casesHRController = require('../controllers/casesHRController');
 
-
-const express = require('express');
-const router = express.Router();
-const Case = require("../models/Case");
-
-// EmployeeListController.get('/', EmployeeListController.index);
+// /casesHR - Loading the list of cases for everyone in the organization
 casesHRController.get('/', casesHRController.index);
 
+// /casesHR/comment/:id - Returns the comments (and post form) for the case that matches the :id
 casesHRController.get('/comments/:id', casesHRController.getCommentsListRender);
 
-
-// notes: [{
-//     comment: { type: String },
-//     writer: {
-//         type: mongoose.Schema.Types.ObjectId, 
-//         ref: 'User',
-//     },
-//     timeStamp: {type: Date},
-// }],
-
+// /casesHR/comment/:id (POST) - Adds the new comment to the case that matches the :id
 casesHRController.post('/comments/:_id', casesHRController.postCommentsListRender);
 
-// router.get('/approve/:id', async (req,res) =>{
-//     try {
-//     const org = await Organization.findOne({_id: req.params.id});
-//     org.status = "Approved";
-//     org.save();
-//     res.redirect('/dashboard');
-//     }catch (e) {
-//         res.redirect('/dashboard');
-//     }
-// });
-// router.get('/deny/:id', async (req,res) =>{
-//     const org = await Organization.findOne({_id: req.params.id});
-//     org.status = "Denied";
-//     org.save();
-//     res.redirect('/dashboard');
-// });
-// router.get('/delete/:id', async (req,res) =>{
-//     const org = await Organization.deleteOne({_id: req.params.id});
-//     req.flash('msg', 'organization was deleted');
-//     res.redirect('/dashboard');
-// });
-
-// need to resolve cases
-// status: {
-//     type: String,
-//     default: 'un-assigned',
-//     enum: ['in-progress', 'resolved', 'denied', 'un-assigned'],
-// },
+// /casesHR/status/:_id (POST) - Updates the status for the case that matches the :_id
 casesHRController.post('/status/:_id', casesHRController.postCommentsUpdateStatus);
 
-// module.exports  = EmployeeListController.getRouter();
 module.exports  = casesHRController.getRouter();

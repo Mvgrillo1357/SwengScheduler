@@ -4,8 +4,19 @@ const Organization = require("../models/Organization");
 
 const { Controller} = require("./controller");
 
+/**
+ * OrganizationController
+ * 
+ * Simply responsibel for approving, denying or deleting an organization
+ */
 class OrganizationController extends Controller {
-    async approve  (req, res) {
+    /**
+     * Approve the organization
+     * 
+     * @param {Request} req Express Request
+     * @param {Response} res Express Response
+     */
+    async approve(req, res) {
         try {
           const org = await Organization.findOne({ _id: req.params.id }).populate(
             "requestedBy"
@@ -20,6 +31,12 @@ class OrganizationController extends Controller {
         }
       }
 
+      /**
+       *  Denythe organization
+       * 
+       * @param {Request} req Express Request
+       * @param {Response} res Express Response
+       */
       async deny (req, res) {
         const org = await Organization.findOne({ _id: req.params.id }).populate(
           "requestedBy"
@@ -29,6 +46,12 @@ class OrganizationController extends Controller {
         res.redirect("/dashboard");
       }
 
+      /**
+       * Delete the organization 
+       * 
+       * @param {Request} req Express Request
+       * @param {Response} res Express Response
+       */
       async delete (req, res)  {
         const org = await Organization.deleteOne({ _id: req.params.id });
         req.flash("msg", "organization was deleted");

@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const User = require('./user');
 
+/**
+ * SuperUser
+ * 
+ * This will inherit all the user's functionality using Mongoose Discriminator
+ */
 const SuperUser = User.discriminator('SuperUser', 
     new mongoose.Schema(
         // Custom SuperUser Fields here

@@ -1,19 +1,19 @@
 
 const UserController = require('../controllers/UserController');
 
-// Login Route
+// /users/login - Login Route
 UserController.get('/login', UserController.login);
 
-// Post Login Route
+// /users/login (POST) - Confirms the login
 UserController.post('/login', UserController.loginProcess);
 
-// Display Password Reset Form
+// /users/reset/:hash - Displays the form to reset the password
 UserController.get('/reset/:hash', UserController.passwordResetForm );
 
-// Process Password Reset Form
+// /users/reset/:hash (POST) - resets the user's password
 UserController.post('/reset/:hash', UserController.processPasswordReset);
 
-// Process Logout 
+// /users/logout (GET) - Logs the user out
 UserController.get('/logout', UserController.logout)
 
 module.exports  = UserController.getRouter();

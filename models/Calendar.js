@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
 
+/**
+ * Calendar Schema -- This schema holds the information for the events
+ */
 const CalendarSchema  = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "The Calendar's Name"],
     },
-    // Who requested it
     belongsTo: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',
-        // required: true,
     },
     start_date :{
         type : Date,

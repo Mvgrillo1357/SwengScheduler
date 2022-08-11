@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const options = { discriminatorKey: 'role' };
 
+/**
+ * USER SCHEMA
+ * 
+ * This schema holds all the information that is unique to the user class
+ */
 const UserSchema  = new mongoose.Schema({
     firstName :{
         type  : String,
@@ -57,11 +62,18 @@ const UserSchema  = new mongoose.Schema({
     },
 }, options);
 
+/**
+ * Returns the name for the user that concats the first and last names
+ */
 UserSchema.virtual('name')
     .get(function() {
         return this.firstName + ' ' + this.lastName;
     });
 
+/** 
+ * Return's the last date the user logged in in a readable format
+ * 
+ */
 UserSchema.virtual('lastLoggedInDate')
     .get(function() {
         if(this.lastLoggedIn) {
@@ -76,15 +88,26 @@ UserSchema.virtual('lastLoggedInDate')
         return "Never";
     });
 
+    /**
+     * Returns the roles that can be set for an employee
+     * 
+     * @returns (array) A list of roles
+     */
 UserSchema.methods.getRoles = function() {
     return ['Employee', 'SuperUser', 'Manager', 'HR'];
 }
 
+/** Check to see if the user can change role
+ * newRole - The role the user will become
+ * userMakingTheChange - the user who is trying to change this user
+ */
 UserSchema.methods.canChangeRole = async function(newRole, userMakingTheChange) {
+    // If the user is the same as the one making the change, show an error
     if(userMakingTheChange._id.toString() == this._id.toString()) {
         return [false, "Users cannot change their own role"];
     }
 
+    // If the user is a super user and they are changing to not a super user
     if(this.role == 'SuperUser' && newRole != 'SuperUser') {
         // Check to see if they're the last SuperUser
         let list = await User.find({
@@ -124,9 +147,6 @@ UserSchema.methods.canChangeRole = async function(newRole, userMakingTheChange) 
     return [true, ""];
 };
 
-UserSchema.methods.terminate; 
-
-
 UserSchema.methods.setRole = async function(role) {
     // Must include overwriteDiscriminatorKey to be able to change the role
     // https://github.com/Automattic/mongoose/issues/6087#issuecomment-652056299
@@ -148,14 +168,25 @@ UserSchema.methods.setRole = async function(role) {
 // }, 'Login already exists');
 
 
+/**
+ * setPassword
+ * 
+ * Sets the user's password using bcrypt
+ * 
+ * @param {String} newPassword 
+ * @returns 
+ */
 UserSchema.methods.setPassword = async function(newPassword) {
     const user = this;
+    // Return a promise to make it async
     return new Promise( function(resolve, reject) {
+        // Hash and salt the user's passsword
         bcrypt.genSalt(10, function (err,salt) {
             if(err) reject(err)
             bcrypt.hash(newPassword, salt,
                 function (err,hash)  {
                     if(err) reject(err);
+                    // Save it to the database
                     user.password = hash;
                     resolve();
                 }
@@ -163,6 +194,7 @@ UserSchema.methods.setPassword = async function(newPassword) {
         });
     });
 };
+
 const User = mongoose.model('User',UserSchema);
 
 module.exports = User;

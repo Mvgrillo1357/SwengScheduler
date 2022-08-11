@@ -1,8 +1,6 @@
-const express = require("express");
-const passport = require("passport");
 const Admin = require("../controllers/AdminController");
 
-//login handle
+// /admin - Route for the Admin page for SuperUsers, HR, and Managers
 Admin.get("/", Admin.index);
 
 module.exports = Admin.getRouter();

@@ -6,97 +6,104 @@ const casesHR = require('../routes/casesHR');
 
 const { Controller } = require('./controller');
 
+/**
+ * CaseHR controller
+ * 
+ * The controller that is responsibel for all HR actions regarding cases
+ */
 class casesHRController extends Controller {
 
+    /**
+     * index route
+     * 
+     * This route lists all the cases for the organization
+     * @param {Request} req Express Request
+     * @param {Response} res Express Response
+     */
     async index(req,res){
         // find all cases that belong to a User model
         let CasesList= await Case.find({org: req.user.organization}).populate('belongsTo');
+
         res.render('CasesListRender', {
             CasesList,
             route: 'casesHR'
         });
     }
+
+    /**
+     * getCommentsListRender
+     * 
+     * Show all the comments for the current case
+     * 
+     * @param {Request} req Express Request
+     * @param {Response} res Express Response
+     */
     async getCommentsListRender(req,res) {
-        // find all comments that belong to a Case model
+        // find all comments that belong to a Case model (Populate the writer to show that information)
         let CommentsList= await Case.findOne({_id: req.params.id}).populate('notes.writer');
+
         res.render('CommentsListRender', {
             CommentsList,
             route: 'casesHR'
         });
     }
 
-// notes: [{
-//     comment: { type: String },
-//     writer: {
-//         type: mongoose.Schema.Types.ObjectId, 
-//         ref: 'User',
-//     },
-//     timeStamp: {type: Date},
-// }],
+    /**
+     * postCommentsListRender
+     * 
+     * Add the new comment to the case
+     * 
+     * @param {Request} req Express Request
+     * @param {Response} res Express Response
+     */
     async postCommentsListRender(req,res){
-        
+        // Get the comment's data from the body
         let {comment} = req.body;
 
+        // Find the case
         let CommentsList= await Case.findOne({_id: req.params._id});
         
+        // Add the new note to the Case with the current user who is writing and add the timestamp
         CommentsList.notes.push({
             comment,
             writer: req.user,
             timeStamp: Date.now(),
         })
 
+        // Save the case
         await CommentsList.save();
         
-        // req.flash('success', `Your case, ${req.user.organization.status} has been opened. Please wait until it is resolved.`);
-        // find all cases that belong to a User model
         res.redirect(`/casesHR/comments/${CommentsList._id}`);
-
     };
-// router.get('/approve/:id', async (req,res) =>{
-//     try {
-//     const org = await Organization.findOne({_id: req.params.id});
-//     org.status = "Approved";
-//     org.save();
-//     res.redirect('/dashboard');
-//     }catch (e) {
-//         res.redirect('/dashboard');
-//     }
-// });
-// router.get('/deny/:id', async (req,res) =>{
-//     const org = await Organization.findOne({_id: req.params.id});
-//     org.status = "Denied";
-//     org.save();
-//     res.redirect('/dashboard');
-// });
-// router.get('/delete/:id', async (req,res) =>{
-//     const org = await Organization.deleteOne({_id: req.params.id});
-//     req.flash('msg', 'organization was deleted');
-//     res.redirect('/dashboard');
-// });
 
-// need to resolve cases
-// status: {
-//     type: String,
-//     default: 'un-assigned',
-//     enum: ['in-progress', 'resolved', 'denied', 'un-assigned'],
-// },
-async postCommentsUpdateStatus(req,res){
-    let {status} = req.body;
+    /**
+     * postCommentsUpdateStatus
+     * 
+     * Update the case's status and adds a comment recording the status change
+     * 
+     * @param {Request} req Express Request
+     * @param {Response} res Express Response
+     */
+    async postCommentsUpdateStatus(req,res){
+        // Get the status from the body
+        let {status} = req.body;
 
-    let CommentsList= await Case.findOne({_id: req.params._id});
-    CommentsList.status= status;
+        // FInd the case
+        let CommentsList= await Case.findOne({_id: req.params._id});
+        // Update the status
+        CommentsList.status = status;
 
-    CommentsList.notes.push({
-        comment: `${req.user.name} updated status to ${status}`,
-        writer: req.user,
-        timeStamp: Date.now(),
-    })
+        // Push a comment with the status change and who did it
+        CommentsList.notes.push({
+            comment: `${req.user.name} updated status to ${status}`,
+            writer: req.user,
+            timeStamp: Date.now(),
+        })
 
-    await CommentsList.save();
-    
-    // req.flash('success', `Your case, ${req.user.organization.status} has been opened. Please wait until it is resolved.`);
-    // find all cases that belong to a User model
-    res.redirect(`/casesHR/comments/${CommentsList._id}`);
+        // Save the Case
+        await CommentsList.save();
+        
+        res.redirect(`/casesHR/comments/${CommentsList._id}`);
     };
 }
 

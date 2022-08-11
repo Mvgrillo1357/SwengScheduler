@@ -6,11 +6,32 @@ const passport = require('passport');
 
 const { Controller} = require("./controller");
 
+/**
+ * SuperUserController
+ * 
+ * Handles creating a new organization for the user
+ * 
+ */
 class SuperUserController extends Controller {
+    /**
+     * Show the Super User request organization form
+     * 
+     * @param {Request} req Express Request
+     * @param {Response} res Express Response
+     */
     async create (req,res) {
         res.render('SuperUser')
     }
 
+    /**
+     * CreatorHandle
+     * 
+     * Post event for the request organization form
+     * 
+     * @param {Request} req Express Request
+     * @param {Response} res Express Response
+     * @returns Response object 
+     */
     async creatorHandle (req,res)  {
         // Convience function render errors 
         function renderError(error) {
@@ -24,15 +45,19 @@ class SuperUserController extends Controller {
             });
         }
     
+        // Get the data from the request body
         const { firstName, lastName, login, personalEmail, password, passwordConfirmation, proposedCompany } = req.body;
         
+        // If the passwords do not match show the error
         if(password == '' || password != passwordConfirmation) { 
             renderError("Passwords do not match or are empty");
             return;
         }
     
+        // If we find an login or emailthat already exists
         let exists = await Promise.all( [ SuperUser.exists({login}), SuperUser.exists({personalEmail}) ]);
     
+        // Then we should show an error
         if(exists.some(item => !!item)) {
             renderError("Email or login already exists");
             return;
@@ -46,11 +71,13 @@ class SuperUserController extends Controller {
             personalEmail,
         });
     
+        /// Set the super user's password
         await newSuperUser.setPassword(password);
+        // Check for errors
         let err = newSuperUser.validateSync();
         if(err) { renderError(JSON.stringify(err)); }
         
-        
+        // Check if the Organization's name exists
         exists = await Organization.exists({name: proposedCompany});
         if(exists) {
             renderError("Company name is in use");
@@ -63,7 +90,7 @@ class SuperUserController extends Controller {
             requestedBy: newSuperUser._id,
         });
     
-    
+        // Check for validation errors
         err = newOrganization.validateSync();
         if(err) { renderError(JSON.stringify(err)); }
     
